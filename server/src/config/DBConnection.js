@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const DB_MONGODB = process.env;
+const DB_MONGODB = process.env.DB_MONGODB;
 
 const mongoOptions = {
 	maxPoolSize: 200,
