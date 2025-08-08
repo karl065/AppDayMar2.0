@@ -1,11 +1,13 @@
+import postControllerUsuario from '../../controllers/controllersUsuarios/postControllerUsuarios.js';
+
 const postHandlerUsuario = async (req, res) => {
 	try {
-		const { nombre, apellido, celular, email, password, rol } = req.body;
+		const { nombre, apellido, email, password, celular, rol } = req.body;
 
 		if (!nombre || !email || !password) {
 			return res.status(401).send('Debe llenar todos los campos');
 		}
-		const usuario = await postUsuarios(
+		const usuario = await postControllerUsuario(
 			{ nombre, apellido, email, celular, password },
 			rol
 		);
