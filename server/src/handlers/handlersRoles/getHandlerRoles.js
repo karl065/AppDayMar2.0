@@ -1,10 +1,10 @@
-import RolesModel from '../../models/Roles.js';
+import getControllerRoles from '../../controllers/controllersRoles/getControllerRoles.js';
 
 const getHandlerRoles = async (req, res) => {
 	try {
 		const { idRol } = req.query;
 
-		const roles = await RolesModel(idRol);
+		const roles = await getControllerRoles(idRol);
 
 		return res.status(200).json(roles);
 	} catch (error) {
