@@ -4,7 +4,6 @@ const sanitizarRol = (role) => {
 	return {
 		_id: role._id,
 		nombre: role.nombre,
-		correo: role.correo,
 		descripcion: role.descripcion,
 		usuarios: role.usuarios
 			? role.usuarios.map((d) => sanitizarUsuario(d))

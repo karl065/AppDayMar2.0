@@ -1,36 +1,34 @@
 import RolesModel from '../../models/Roles.js';
-import UsuariosModel from '../../models/Usuarios.js';
+import analizarEsquemaDelete from '../../helpers/analizarEsquemaDelete.js';
+import deleteGeneral from '../../helpers/deleteGeneral.js';
+
+const configDelete = analizarEsquemaDelete(RolesModel);
 
 const deleteControllerRoles = async (idRolEliminar, idRolAsignar) => {
 	try {
-		const rolEliminado = await RolesModel.findById(idRolEliminar);
+		if (!idRolEliminar) throw new Error('ID de rol a eliminar requerido');
 
-		if (rolEliminado.usuarios.length === 0) {
-			await RolesModel.findByIdAndDelete(idRolEliminar);
-			return rolEliminado;
-		}
+		// 1. Buscamos el rol y poblamos los usuarios (hijos) para tener la referencia
+		const rolEliminado =
+			await RolesModel.findById(idRolEliminar).populate('usuarios');
+		if (!rolEliminado) throw new Error('El rol no existe');
 
-		if (!idRolAsignar) {
+		// 2. Regla de negocio: Si tiene usuarios, debe haber un rol asignado
+		if (rolEliminado.usuarios.length > 0 && !idRolAsignar) {
 			throw new Error(
-				'🚨 Debe asignar un rol antes de eliminar uno existente 🚨'
+				'🚨 Debe asignar un rol antes de eliminar uno existente 🚨',
 			);
 		}
 
-		rolEliminado.usuarios.map(async (usuario) => {
-			await UsuariosModel.findByIdAndUpdate(usuario._id, { rol: idRolAsignar });
+		// 3. Ejecutamos la automatización
+		// deleteGeneral moverá los 'usuarios' (hijos) al idRolAsignar y limpiará todo
+		const resultado = await deleteGeneral(
+			rolEliminado,
+			idRolAsignar,
+			configDelete,
+		);
 
-			await RolesModel.findByIdAndUpdate(
-				idRolAsignar,
-				{ $push: { usuarios: usuario._id } },
-				{ new: true }
-			);
-		});
-
-		await RolesModel.findByIdAndDelete(idRolEliminar);
-
-		const rolAsignado = await RolesModel.findById(idRolAsignar);
-
-		return rolEliminado, rolAsignado;
+		return resultado;
 	} catch (error) {
 		throw error;
 	}

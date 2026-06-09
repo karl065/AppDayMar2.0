@@ -12,8 +12,8 @@ const CategoriasSchema = new mongoose.Schema({
 		required: true,
 	},
 	tipo: {
-		type: String,
-		enum: ['Planta', 'Insumo'],
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Tipos',
 		required: true,
 	},
 	descripcion: {

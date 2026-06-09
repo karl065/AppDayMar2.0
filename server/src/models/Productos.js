@@ -11,10 +11,18 @@ const ProductosSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	tipo: {
-		type: String,
-		enum: ['Planta', 'Insumo'],
+	precio: {
+		type: Number,
 		required: true,
+	},
+	stock: {
+		type: Number,
+		required: true,
+	},
+	estado: {
+		type: String,
+		enum: ['disponible', 'agotado', 'descontinuado'],
+		default: 'disponible',
 	},
 	descripcion: {
 		type: String,

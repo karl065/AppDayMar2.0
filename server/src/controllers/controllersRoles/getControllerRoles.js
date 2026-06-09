@@ -1,11 +1,11 @@
 import RolesModel from '../../models/Roles.js';
-import satinizarRol from '../../helpers/sanitizadores/satinizadorRoles.js';
+import sanitizarRol from '../../helpers/sanitizadores/sanitizadorRoles.js';
 
 const getControllerRoles = async () => {
 	try {
 		const roles = await RolesModel.find().populate('usuarios');
 
-		const rolesSatinizados = roles.map((role) => satinizarRol(role));
+		const rolesSatinizados = sanitizarRol(rolActualizado);
 
 		return rolesSatinizados;
 	} catch (error) {

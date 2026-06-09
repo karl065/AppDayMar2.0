@@ -8,7 +8,7 @@ const getControllerCategorias = async (query) => {
 			return tiposEnum;
 		}
 
-		const filtro = filtroAvanzado(query, Productos.schema);
+		const filtro = filtroAvanzado(query, CategoriasModel.schema);
 
 		const categorias = await CategoriasModel.find(
 			Object.keys(filtro).length > 0 ? filtro : {},
