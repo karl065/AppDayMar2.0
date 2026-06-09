@@ -1,11 +1,11 @@
 import putControllerTipo from '../controllersTipos/putControllerTipos.js';
-// Importaste CategoriasModel, asegúrate de usar ese nombre al crear
-import CategoriasModel from './../../models/Categorias.js';
+// Importaste Categorias, asegúrate de usar ese nombre al crear
+import Categorias from './../../models/Categorias.js';
 
 const postControllerCategorias = async (categoria) => {
 	try {
-		// Corrección: Usar CategoriasModel.create en lugar de Categorias.create
-		const categoriaNueva = await CategoriasModel.create(categoria);
+		// Corrección: Usar Categorias.create en lugar de Categorias.create
+		const categoriaNueva = await Categorias.create(categoria);
 
 		await putControllerTipo(
 			{ $addToSet: { categorias: categoriaNueva._id } },
@@ -14,7 +14,7 @@ const postControllerCategorias = async (categoria) => {
 
 		return categoriaNueva;
 	} catch (error) {
-		return error;
+		throw error;
 	}
 };
 

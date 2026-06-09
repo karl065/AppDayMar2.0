@@ -1,28 +1,29 @@
 import bcryptjs from 'bcryptjs';
-import UsuariosModel from './../../models/Usuarios';
-import RolesModel from './../../models/Roles';
+import Usuarios from './../../models/Usuarios';
+import Roles from './../../models/Roles';
 
-const postControllerUsuario = async (usuario, rolId) => {
+const postControllerUsuario = async (usuario) => {
 	try {
-		const { email, password } = usuario;
+		const { email, password, nombre } = usuario;
 
-		const usuarioExistente = await UsuariosModel.findOne({ email });
+		if (!nombre || !email || !password) {
+			throw new Error('Debe llenar todos los campos');
+		}
+
+		const usuarioExistente = await Usuarios.findOne({ email });
 
 		if (!usuarioExistente) {
 			const passwordHash = await bcryptjs.hash(password, 10);
 			usuario.password = passwordHash;
 
-			// Asignar el rol al usuario
-			usuario.rol = rolId;
-
-			const nuevoUsuario = new UsuariosModel(usuario);
+			const nuevoUsuario = new Usuarios(usuario);
 			const usuarioGuardado = await nuevoUsuario.save();
 
 			// Agregar este usuario al rol correspondiente
-			await RolesModel.findByIdAndUpdate(
-				rolId,
+			await Roles.findByIdAndUpdate(
+				usuario.rol,
 				{ $push: { usuarios: usuarioGuardado._id } },
-				{ new: true }
+				{ new: true },
 			);
 
 			return usuarioGuardado;
@@ -30,7 +31,7 @@ const postControllerUsuario = async (usuario, rolId) => {
 			throw new Error('El usuario ya existe');
 		}
 	} catch (error) {
-		throw error.message;
+		throw error;
 	}
 };
 

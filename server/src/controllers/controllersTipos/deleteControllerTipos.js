@@ -1,11 +1,10 @@
+import analizarEsquemaDelete from '../../helpers/analizadorSchemas/analizadorSchemasDelete.js';
+import deleteGeneral from '../../helpers/organizadoresGenerales/deleteGeneral.js';
 import TiposModel from '../../models/Tipos.js';
-import analizarEsquemaDelete from '../../helpers/analizarEsquemaDelete.js';
-import deleteGeneral from '../../helpers/deleteGeneral.js';
-
-const configDelete = analizarEsquemaDelete(TiposModel);
 
 const deleteControllerTipo = async (idTipoEliminar, idTipoAsignar = null) => {
 	try {
+		const configDelete = analizarEsquemaDelete(TiposModel);
 		if (!idTipoEliminar) throw new Error('ID a eliminar requerido');
 
 		// Buscamos y poblamos los arrays que el analizador detectó
@@ -29,7 +28,7 @@ const deleteControllerTipo = async (idTipoEliminar, idTipoAsignar = null) => {
 
 		return resultado;
 	} catch (error) {
-		return { error: error.message };
+		throw error;
 	}
 };
 

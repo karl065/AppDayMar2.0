@@ -20,6 +20,6 @@ const RolesSchema = new mongoose.Schema({
 	],
 });
 
-const RolesModel = connection.model('Roles', RolesSchema);
+const Roles = connection.model('Roles', RolesSchema);
 
-export default RolesModel;
+export default Roles;

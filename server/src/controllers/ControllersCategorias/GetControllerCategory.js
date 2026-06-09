@@ -1,4 +1,4 @@
-import CategoriasModel from '../../models/Categorias.js';
+import Categorias from '../../models/Categorias.js';
 import filtroAvanzado from './../../helpers/filtros/filtroAvanzado.js';
 
 const getControllerCategorias = async (query) => {
@@ -8,15 +8,15 @@ const getControllerCategorias = async (query) => {
 			return tiposEnum;
 		}
 
-		const filtro = filtroAvanzado(query, CategoriasModel.schema);
+		const filtro = filtroAvanzado(query, Categorias.schema);
 
-		const categorias = await CategoriasModel.find(
+		const categorias = await Categorias.find(
 			Object.keys(filtro).length > 0 ? filtro : {},
 		).populate('productos');
 
 		return categorias;
 	} catch (error) {
-		return error;
+		throw error;
 	}
 };
 

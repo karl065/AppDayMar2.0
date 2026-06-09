@@ -33,6 +33,6 @@ const UsuarioSchema = new mongoose.Schema({
 	},
 });
 
-const UsuariosModel = connection.model('Usuarios', UsuarioSchema);
+const Usuarios = connection.model('Usuarios', UsuarioSchema);
 
-export default UsuariosModel;
+export default Usuarios;

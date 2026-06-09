@@ -12,7 +12,7 @@ const getControllerTipos = async (query) => {
 
 		return tipos;
 	} catch (error) {
-		return { error: error.message };
+		throw error;
 	}
 };
 

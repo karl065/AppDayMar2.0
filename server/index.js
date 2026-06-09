@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { httpServer, io } from './src/server.js';
+import socket from './src/utils/socket/socketServer.js';
 
 dotenv.config();
 const { PORT } = process.env;
@@ -8,4 +9,4 @@ const { PORT } = process.env;
 httpServer.listen(PORT, async () => {
 	console.log(`Corriendo en el puerto: ${PORT}`);
 });
- 
+socket(io);

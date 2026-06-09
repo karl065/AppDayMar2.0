@@ -34,6 +34,6 @@ const CategoriasSchema = new mongoose.Schema({
 	},
 });
 
-const CategoriasModel = connection.model('Categorias', CategoriasSchema);
+const Categorias = connection.model('Categorias', CategoriasSchema);
 
-export default CategoriasModel;
+export default Categorias;

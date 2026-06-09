@@ -6,7 +6,7 @@ const postControllerTipo = async (tipo) => {
 
 		return nuevoTipo;
 	} catch (error) {
-		return error;
+		throw error;
 	}
 };
 

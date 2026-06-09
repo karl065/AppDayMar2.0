@@ -1,12 +1,12 @@
-import RolesModel from '../../models/Roles.js';
-import sanitizarRol from '../../sanitizadores/sanitizarRoles.js'; // Asumiendo que tienes este archivo
+import sanitizarRol from '../../helpers/sanitizadores/sanitizadorRoles.js';
+import Roles from '../../models/Roles.js';
 
 const postControllerRoles = async (rol) => {
 	try {
-		const rolNuevo = await RolesModel.create(rol);
+		const rolNuevo = await Roles.create(rol);
 		return sanitizarRol(rolNuevo);
 	} catch (error) {
-		return { error: error.message };
+		throw error;
 	}
 };
 

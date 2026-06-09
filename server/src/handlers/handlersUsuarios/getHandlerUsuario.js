@@ -1,6 +1,4 @@
 import getControllerUsuarios from '../../controllers/controllersUsuarios/getControllerUsuarios.js';
-import construirFiltros from './../../helpers/construirFiltros.js';
-
 const getHandlerUsuario = async (req, res) => {
 	try {
 		const filtros = construirFiltros(req.query);

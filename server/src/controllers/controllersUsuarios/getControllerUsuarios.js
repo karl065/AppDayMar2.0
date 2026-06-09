@@ -1,13 +1,13 @@
-import UsuariosModel from './../../models/Usuarios.js';
+import Usuarios from './../../models/Usuarios.js';
 
 const getControllerUsuarios = async (filtros) => {
 	try {
-		const usuarios = await UsuariosModel.find(filtros)
+		const usuarios = await Usuarios.find(filtros)
 			.select('-password')
 			.populate('rol');
 		return usuarios;
 	} catch (error) {
-		return error;
+		throw error;
 	}
 };
 

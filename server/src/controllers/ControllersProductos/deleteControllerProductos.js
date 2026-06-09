@@ -1,16 +1,15 @@
-import ProductosModel from '../../models/Productos.js';
-import analizarEsquemaDelete from '../../helpers/analizarEsquemaDelete.js';
-import deleteGeneral from '../../helpers/deleteGeneral.js';
-
-// Generamos la configuración una sola vez
-const configDelete = analizarEsquemaDelete(ProductosModel);
+import analizarEsquemaDelete from '../../helpers/analizadorSchemas/analizadorSchemasDelete.js';
+import deleteGeneral from '../../helpers/organizadoresGenerales/deleteGeneral.js';
+import Productos from '../../models/Productos.js';
 
 const deleteControllerProducto = async (idProducto, idNuevoProducto = null) => {
 	try {
+		// Generamos la configuración una sola vez
+		const configDelete = analizarEsquemaDelete(Productos);
 		if (!idProducto) throw new Error('El ID a eliminar es requerido');
 
 		// Preparamos la consulta y poblamos automáticamente lo que detecte el analizador
-		const query = ProductosModel.findById(idProducto);
+		const query = Productos.findById(idProducto);
 		configDelete.arraysAMover.forEach((arr) => query.populate(arr));
 
 		const producto = await query.exec();
@@ -25,7 +24,7 @@ const deleteControllerProducto = async (idProducto, idNuevoProducto = null) => {
 
 		return productoEliminado;
 	} catch (error) {
-		return { error: error.message };
+		throw error;
 	}
 };
 
