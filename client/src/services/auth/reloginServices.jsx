@@ -9,7 +9,7 @@ const reloginServices = async () => {
 
 		return data;
 	} catch (error) {
-		throw new Error(error.response.data.msg);
+		throw new Error(error.response.data.msg, { cause: error });
 	}
 };
 

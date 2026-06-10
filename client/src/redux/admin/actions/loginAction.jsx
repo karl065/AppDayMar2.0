@@ -1,69 +1,49 @@
 import { alertInfo, alertSuccess } from '../../../helpers/alertas.jsx';
 import { loadingAction } from '../../app/actions/loadingAction.jsx';
 import { setLogin } from '../slices/loginSlice.jsx';
-import { obtenerFingerprint } from '../../../helpers/obtenerFingerPrint.jsx'; // función que veremos abajo
 import loginServices from '../../../services/auth/loginServices.jsx';
 import { emitEvent } from '../../../services/sockets/socketServices.jsx';
-import { cargarCajaActual } from '../../cajas/slices/cajasSlices.jsx';
 import { actualizarUsuario } from '../slices/usuariosSlice.jsx';
 
-export const loginAction = async (
-	userLogin,
-	dispatch,
-	navigate,
-	setStep,
-	set2FAData
-) => {
+export const loginAction = async (userLogin, dispatch, navigate) => {
 	try {
 		loadingAction(true, dispatch);
 
-		// Obtener fingerprint del dispositivo
-		const fingerprint = await obtenerFingerprint();
+		// Petición al backend (solo enviamos correo y password)
+		const data = await loginServices(userLogin);
 
-		const data = await loginServices({
-			...userLogin,
-			fingerprint,
-		});
+		if (data.loginApproved) {
+			// 1️⃣ Guardar la "bandera" en localStorage para no saturar al servidor después
+			// El backend nos envía status: true, lo guardamos como texto 'true'
+			localStorage.setItem('hasSession', 'true');
 
-		data.fingerprint = fingerprint;
-
-		if (data.require2FASetup) {
-			// Paso 1: Usuario necesita configurar 2FA
-			set2FAData({
-				data,
-				qrCode: null,
-				secret: null,
-			});
-			setStep('setup2FA'); // Cambia la vista al componente de setup2FA
-		} else if (data.require2FA) {
-			// Paso 2: Usuario necesita ingresar código 2FA
-			set2FAData({ userId: data.userId, fingerprint: data.fingerprint });
-			setStep('login2FA'); // Cambia la vista al componente de login2FA
-		} else if (data.loginApproved) {
-			// Login completo
-
-			const cajaActual = data.usuario.caja.filter(
-				(caj) => caj.estado === 'abierta'
-			);
-
-			console.log('caja abierta', cajaActual);
-
-			if (cajaActual.length !== 0) {
-				dispatch(cargarCajaActual(cajaActual[0]));
-			}
-
+			// 2️⃣ Actualizar el estado global en Redux
 			dispatch(setLogin(data.usuario));
 			dispatch(actualizarUsuario(data.usuario));
 
-			emitEvent('usuario:login', data);
-			data.usuario.role === 'Mesero' ? navigate('/caja') : navigate('/admin');
+			// 3️⃣ Emitir evento al socket para notificar que te conectaste
+			// (Eliminé el emit duplicado que tenías en tu código original)
+			emitEvent('usuario:login', data.usuario);
+
+			// 4️⃣ Navegación (Ajusta los roles según los que vayas a usar)
+			if (
+				data.usuario.rol === 'Administrador' ||
+				data.usuario.rol === 'Supervisor'
+			) {
+				navigate('/admin');
+			} else {
+				navigate('/'); // Ruta por defecto
+			}
+
 			alertSuccess(`Bienvenido ${data.usuario.nombre}`);
 		}
-		emitEvent('usuario:login', data.usuario);
 
 		loadingAction(false, dispatch);
 	} catch (error) {
-		alertInfo(error.message);
+		// Mejor manejo de errores por si el back devuelve el error estructurado
+		const errorMessage = error.response?.data?.error || error.message;
+		alertInfo(errorMessage);
+
 		loadingAction(false, dispatch);
 	}
 };

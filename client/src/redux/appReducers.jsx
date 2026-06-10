@@ -5,26 +5,18 @@ import loadingReducer from './app/slices/loadingSlice.jsx';
 
 // admin Slices
 import loginReducer from './admin/slices/loginSlice.jsx';
-import rolesReducer from './admin/slices/rolesSlice.jsx';
 import usuariosReducer from './admin/slices/usuariosSlice.jsx';
 
+// roles Slices
+import rolesReducer from './roles/slices/rolesSlice.jsx';
 // productos Slices
 import productosReducer from './productos/slices/productosSlice.jsx';
 
 // Categorias Slices
 import categoriasReducer from './categorias/slices/categoriasSlice.jsx';
 
-// facturas Slices
-import facturasReducer from './facturas/slices/facturasSlices.jsx';
-
-// movimientos Slices
-import movimientosReducer from './movimientos/slices/movimientosSlices.jsx';
-
-// cajas Slices
-import cajasReducer from './cajas/slices/cajasSlices.jsx';
-
-// impresoras Slices
-import impresorasReducer from './impresoras/slices/impresorasSlices.jsx';
+// tipos Slices
+import tiposReducer from './tipos/slices/tiposSlices.jsx';
 
 const appReducers = combineReducers({
 	// App Reducers
@@ -32,8 +24,9 @@ const appReducers = combineReducers({
 
 	// admin reducers
 	login: loginReducer,
-	roles: rolesReducer,
 	usuarios: usuariosReducer,
+	// roles reducers
+	roles: rolesReducer,
 
 	// Categorias reducers
 	categorias: categoriasReducer,
@@ -41,17 +34,8 @@ const appReducers = combineReducers({
 	// productos reducers
 	productos: productosReducer,
 
-	// facturas reducers
-	facturas: facturasReducer,
-
-	// movimientos reducers
-	movimientos: movimientosReducer,
-
-	// cajas reducers
-	cajas: cajasReducer,
-
-	// impresoras reducers
-	impresoras: impresorasReducer,
+	// tipos reducers
+	tipos: tiposReducer,
 });
 
 export default appReducers;

@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Usuarios from '../../models/Usuarios.js';
+import putControllerUsuarios from '../controllersUsuarios/putControllerUsuarios.js';
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ const loginController = async ({ correo, password }) => {
 		const passOk = await bcryptjs.compare(password, usuario.password);
 		if (!passOk) throw new Error('Credenciales incorrectas');
 
+		await putControllerUsuarios({ userStatus: true }, usuario._id);
+
 		// Generar JWT directamente
 		const token = jwt.sign(
 			{ id: usuario._id, role: usuario.role, correo: usuario.correo },
@@ -29,6 +32,7 @@ const loginController = async ({ correo, password }) => {
 				id: usuario._id,
 				nombre: usuario.nombre, // Asegúrate de traer lo que necesites
 				rol: usuario.rol,
+				status: true,
 			},
 		};
 	} catch (error) {
