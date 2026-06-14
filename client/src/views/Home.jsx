@@ -5,7 +5,7 @@ const Home = () => {
 
 	return (
 		// Agregamos bg-vivero-light para el fondo general del catálogo
-		<div className="bg-vivero-light min-h-screen">
+		<div className="bg-linear-to-b from-pastel-cream via-vivero-light to-pastel-green">
 			<div className="max-w-7xl mx-auto p-4 md:p-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{productos.map((p) => (
 					<div
