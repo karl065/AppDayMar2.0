@@ -18,12 +18,10 @@ const TiposSchema = new mongoose.Schema({
 			ref: 'Categorias',
 		},
 	],
-	usuarios: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Usuarios',
-		},
-	],
+	usuario: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Usuarios',
+	},
 });
 
 const TiposModel = connection.model('Tipos', TiposSchema);

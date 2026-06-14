@@ -6,11 +6,11 @@ const loginServices = async (userLogin) => {
 		const { data } = await axios.post(
 			`${server.api.baseURL}auth/login`,
 			userLogin,
-			{ withCredentials: true }
+			{ withCredentials: true },
 		);
 		return data;
 	} catch (error) {
-		throw new Error(error.response.data.error);
+		throw new Error(error.response.data.error, { cause: error });
 	}
 };
 

@@ -1,5 +1,5 @@
 import actualizarTiposServices from '../../../services/tipos/actualizarTiposServices.jsx';
-import { actualizarTipo } from '../slices/impresorasSlices.jsx';
+import { actualizarTipo } from '../slices/tiposSlices.jsx';
 
 export const actualizarTiposAction = async (dispatch, id, dataUpdate) => {
 	try {

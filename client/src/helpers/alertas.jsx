@@ -96,3 +96,22 @@ export const alertError = (msg) => {
 		title: msg,
 	});
 };
+
+export const alertConfirm = async (title, text) => {
+	const result = await Swal.fire({
+		title: title,
+		text: text,
+		icon: 'question', // Un icono de pregunta queda perfecto para confirmar acciones
+		showCancelButton: true,
+		confirmButtonColor: '#1C3127', // Color vivero-dark para mantener la identidad
+		cancelButtonColor: '#d33', // Rojo estándar para cancelar
+		confirmButtonText: 'Sí, continuar',
+		cancelButtonText: 'Cancelar',
+		// Opcional: si tienes un tema oscuro en tu panel, puedes descomentar la siguiente línea
+		// background: '#FDFCF6', // vivero-light
+		// color: '#1C3127',
+	});
+
+	// Retorna true si el usuario hizo clic en "Sí, continuar", de lo contrario false
+	return result.isConfirmed;
+};

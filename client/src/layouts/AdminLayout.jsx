@@ -4,8 +4,8 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SidebarAdmin from '../components/admin/SidebarAdmin.jsx';
 import NavbarAdmin from '../components/admin/NavbarAdmin.jsx';
-import { alertConfirm } from '../helpers/alertas.jsx';
 import { logoutAction } from '../redux/admin/actions/logoutAction.jsx';
+import { alertConfirm } from '../helpers/alertas.jsx';
 
 const AdminLayout = () => {
 	const navigate = useNavigate();
@@ -14,6 +14,10 @@ const AdminLayout = () => {
 	const userId = login?.usuario?._id || login?._id;
 
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+	// 1. Estados centrales de navegación y modales
+	const [modalCrearAbierto, setModalCrearAbierto] = useState(false);
+	const [seccion, setSeccion] = useState('dashboard');
 
 	const handleLogout = async () => {
 		const confirmar = await alertConfirm(
@@ -26,10 +30,11 @@ const AdminLayout = () => {
 	};
 
 	return (
-		<div className="flex h-screen bg-gray-100 overflow-hidden font-sans">
+		<div className="flex h-screen bg-vivero-light overflow-hidden font-sans">
 			<SidebarAdmin
 				isSidebarOpen={isSidebarOpen}
 				setIsSidebarOpen={setIsSidebarOpen}
+				setSeccion={setSeccion}
 			/>
 
 			<div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -37,11 +42,23 @@ const AdminLayout = () => {
 					isSidebarOpen={isSidebarOpen}
 					setIsSidebarOpen={setIsSidebarOpen}
 					handleLogout={handleLogout}
+					seccion={seccion}
+					onOpenCreate={() => setModalCrearAbierto(true)}
 				/>
 
-				<main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+				<main className="flex-1 overflow-x-hidden overflow-y-auto">
 					<div className="max-w-7xl mx-auto p-4 md:p-8">
-						<Outlet />
+						{/* CORRECCIÓN: Aquí pasamos todo el estado necesario al Outlet 
+                            para que PanelAdministrativo pueda manejar el modal.
+                        */}
+						<Outlet
+							context={{
+								seccion,
+								setSeccion,
+								modalCrearAbierto,
+								setModalCrearAbierto,
+							}}
+						/>
 					</div>
 				</main>
 			</div>
@@ -49,7 +66,7 @@ const AdminLayout = () => {
 			{isSidebarOpen && (
 				<div
 					onClick={() => setIsSidebarOpen(false)}
-					className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm"
+					className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
 				/>
 			)}
 		</div>

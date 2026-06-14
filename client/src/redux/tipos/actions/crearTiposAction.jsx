@@ -1,5 +1,5 @@
 import crearTiposServices from '../../../services/tipos/crearTiposServices.jsx';
-import { agregarTipo } from '../slices/impresorasSlices.jsx';
+import { agregarTipo } from '../slices/tiposSlices.jsx';
 
 export const crearTiposAction = async (dispatch, tipo) => {
 	try {

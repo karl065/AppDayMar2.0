@@ -11,6 +11,7 @@ export const logoutAction = async (id, userStatus, dispatch, navigate) => {
 		if (data) {
 			dispatch(setLogin({}));
 			navigate('/');
+			localStorage.removeItem('hasSession');
 		}
 	} catch (error) {
 		console.log(error);

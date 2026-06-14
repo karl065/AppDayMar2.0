@@ -10,19 +10,19 @@ const { SECRETA } = process.env;
 
 const loginController = async ({ correo, password }) => {
 	try {
-		const usuario = await Usuarios.findOne({ correo });
+		const usuario = await Usuarios.findOne({ correo }).populate('rol');
 		if (!usuario) throw new Error('Credenciales incorrectas');
 
 		// Validar contraseña
 		const passOk = await bcryptjs.compare(password, usuario.password);
 		if (!passOk) throw new Error('Credenciales incorrectas');
 
-		await putControllerUsuarios({ userStatus: true }, usuario._id);
+		await putControllerUsuarios({ status: true }, usuario._id);
 
 		// Generar JWT directamente
 		const token = jwt.sign(
 			{ id: usuario._id, role: usuario.role, correo: usuario.correo },
-			SECRET,
+			SECRETA,
 			{ expiresIn: '7d' },
 		);
 

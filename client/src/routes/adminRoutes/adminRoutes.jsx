@@ -1,11 +1,8 @@
-// import Principal from '../../views/paneles/admin/Principal.jsx';
-// import PrincipalMeseros from '../../views/paneles/meseros/PrincipalMeseros.jsx';
+import PanelAdministrativo from '../../views/paneles/admin/PanelAdministrativo.jsx';
 
-const rawRoutes = [
-	// { path: '/admin', element: <Principal /> },
-	// { path: '/caja', element: <PrincipalMeseros /> },
-];
-
-export const adminRoutes = rawRoutes.map((route) => ({
-	...route,
-}));
+export const adminRoutes = {
+	routes: [
+		{ path: '/admin', element: <PanelAdministrativo /> },
+		// Aquí agregarás más rutas: { path: '/admin/productos', element: <Productos /> }
+	],
+};

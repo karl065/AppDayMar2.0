@@ -1,8 +1,9 @@
-import { alertInfo, alertSuccess } from '../../../helpers/alertas.jsx';
+// src/redux/admin/actions/reloginAction.jsx
+import { alertInfo } from '../../../helpers/alertas.jsx';
 import reloginServices from '../../../services/auth/reloginServices.jsx';
 import { setLogin } from '../slices/loginSlice.jsx';
 
-// 👉 Se recibe dispatch y navigate
+// Volvemos a recibir 'navigate'
 export const reloginAction = async (dispatch, navigate) => {
 	try {
 		const data = await reloginServices();
@@ -11,20 +12,25 @@ export const reloginAction = async (dispatch, navigate) => {
 
 		dispatch(setLogin(data));
 
-		alertSuccess(`Bienvenido de nuevo: ${data.nombre}`);
+		const rolUsuario = data.rol?.nombre || data.rol;
 
-		data.role === 'Mesero' ? navigate('/caja') : navigate('/admin');
+		// ✅ El truco maestro: Solo redirigimos si están en la página principal.
+		// Así evitamos sacarlos del panel si recargan estando en otra vista.
+		if (window.location.pathname === '/') {
+			if (rolUsuario === 'Administrador' || rolUsuario === 'SuperAdmin') {
+				navigate('/admin');
+			}
+		}
 
 		return true;
 	} catch (error) {
 		if (
 			error.message === 'Token no válido' ||
 			error.message === 'Token expirado'
-		)
-			alertInfo('Sesion expirada, por favor inicie sesion nuevamente');
-
-		// ⚠️ Si falla → redirecciona al login
-		if (navigate) navigate('/');
+		) {
+			alertInfo('Sesión expirada, por favor inicie sesión nuevamente');
+			localStorage.removeItem('hasSession');
+		}
 
 		return false;
 	}

@@ -9,8 +9,10 @@ import AuthLoader from './components/AuthLoader/AuthLoader.jsx';
 createRoot(document.getElementById('root')).render(
 	<Provider store={store}>
 		<BrowserRouter>
-			<AuthLoader />
-			<App />
+			{/* AuthLoader ahora controla cuándo se pinta App */}
+			<AuthLoader>
+				<App />
+			</AuthLoader>
 		</BrowserRouter>
 	</Provider>,
 );

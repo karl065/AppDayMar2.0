@@ -8,7 +8,7 @@ const getControllerTipos = async (query) => {
 		// Buscamos, poblamos y aplicamos filtro
 		const tipos = await TiposModel.find(filtro)
 			.populate('categorias')
-			.populate('usuarios');
+			.populate('usuario');
 
 		return tipos;
 	} catch (error) {

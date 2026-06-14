@@ -1,6 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// src/components/AuthLoader/AuthLoader.jsx
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { reloginAction } from '../../redux/admin/actions/reloginAction.jsx';
 import { obtenerUsuariosAction } from './../../redux/admin/actions/obtenerUsuariosAction.jsx';
 import { obtenerTiposAction } from './../../redux/tipos/actions/obtenerTiposAction';
@@ -11,40 +11,62 @@ import {
 	connectSocket,
 	setAppDispatch,
 } from '../../services/sockets/socketServices.jsx';
+import { useNavigate } from 'react-router-dom';
 
-const AuthLoader = () => {
+// Ahora recibe 'children' (que será App.jsx)
+const AuthLoader = ({ children }) => {
 	const dispatch = useDispatch();
-	const login = useSelector((state) => state.login.login);
+	const navigate = useNavigate();
+	const [isReady, setIsReady] = useState(false);
 
-	// 1️⃣ CARGA INICIAL (Pública)
 	useEffect(() => {
-		// Inicializar Sockets (Soporta invitados y admins)
-		setAppDispatch(dispatch);
-		connectSocket();
+		const inicializarApp = async () => {
+			// 1. Inicializar Sockets
+			setAppDispatch(dispatch);
+			connectSocket();
 
-		// Cargar Catálogo (Visible para todos)
-		obtenerTiposAction(dispatch);
-		obtenerProductosAction(dispatch);
-		obtenerCategoriasAction(dispatch);
+			// 2. Disparamos la carga del catálogo público
+			obtenerTiposAction(dispatch);
+			obtenerProductosAction(dispatch);
+			obtenerCategoriasAction(dispatch);
 
-		// 🔥 LA MAGIA DE LA OPTIMIZACIÓN 🔥
-		// Solo intentamos verificar la sesión si el navegador tiene la bandera
-		const hasSession = localStorage.getItem('hasSession');
-		if (hasSession === 'true') {
-			reloginAction(dispatch);
-		}
-	}, []);
+			// 3. Verificamos la sesión
+			const hasSession = localStorage.getItem('hasSession');
+			if (hasSession === 'true') {
+				// Pasamos dispatch y navigate
+				const loginExitoso = await reloginAction(dispatch, navigate);
 
-	// 2️⃣ CARGA PRIVADA (Solo si la sesión fue validada con éxito)
-	useEffect(() => {
-		// Si Redux tiene el id del usuario, significa que el reloginAction funcionó
-		if (login && login.id) {
-			obtenerUsuariosAction(dispatch);
-			obtenerRolesAction(dispatch);
-		}
-	}, [login]);
+				// Si el token era válido, necesitamos los roles ANTES de pintar App.jsx
+				if (loginExitoso) {
+					await obtenerRolesAction(dispatch);
+					await obtenerUsuariosAction(dispatch);
+				}
+			}
 
-	return null; // Componente invisible
+			// 4. Levantamos el telón: La App ya puede renderizarse
+			setIsReady(true);
+		};
+
+		inicializarApp();
+	}, [dispatch]);
+
+	// Mientras carga la info, mostramos un loader en lugar de las rutas
+	if (!isReady) {
+		return (
+			<div className="flex items-center justify-center h-screen bg-vivero-light">
+				<div className="flex flex-col items-center gap-4 animate-pulse">
+					{/* Puedes cambiar esto por el rombo de tu logo luego */}
+					<div className="w-16 h-16 border-4 border-vivero-gold border-t-vivero-dark rounded-full animate-spin"></div>
+					<h2 className="text-xl font-serif text-vivero-dark font-bold tracking-widest uppercase">
+						Cargando Vivero Daymar...
+					</h2>
+				</div>
+			</div>
+		);
+	}
+
+	// Cuando termina, renderiza la aplicación con todas las rutas y permisos correctos
+	return children;
 };
 
 export default AuthLoader;

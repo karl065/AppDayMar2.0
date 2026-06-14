@@ -14,16 +14,13 @@ const putControllerUsuarios = async (dataUpdate, id) => {
 			await Roles.findByIdAndUpdate(usuarioActual.rol, {
 				$pull: { usuarios: usuarioActual._id },
 			});
-			await Roles.findByIdAndUpdate(usuarioActual.rol, {
-				$pull: { usuarios: usuarioActual._id },
-			});
 			await Roles.findByIdAndUpdate(dataUpdate.rol, {
 				$addToSet: { usuarios: usuarioActual._id },
 			});
 		}
 
 		await Usuarios.findByIdAndUpdate(id, dataUpdate);
-		const usuarioActualizado = await Usuarios.findById(id);
+		const usuarioActualizado = await Usuarios.findById(id).select('-password');
 		return usuarioActualizado;
 	} catch (error) {
 		throw error;

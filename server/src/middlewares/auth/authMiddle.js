@@ -7,8 +7,6 @@ const { SECRETA } = process.env;
 const authMiddle = async (req, res, next) => {
 	try {
 		const token = req.cookies.token; // viene de cookie httpOnly
-
-		console.log('Token ', token);
 		if (!token) {
 			throw new Error('No hay token');
 		}

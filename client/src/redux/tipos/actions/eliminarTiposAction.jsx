@@ -1,5 +1,5 @@
 import eliminarTiposServices from '../../../services/tipos/eliminarTiposServices.jsx';
-import { eliminarTipo } from '../slices/impresorasSlices.jsx';
+import { eliminarTipo } from '../slices/tiposSlices.jsx';
 
 export const eliminarTiposAction = async (dispatch, id) => {
 	try {

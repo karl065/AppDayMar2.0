@@ -24,7 +24,6 @@ const CategoriasSchema = new mongoose.Schema({
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Productos',
-			required: true,
 		},
 	],
 	usuario: {

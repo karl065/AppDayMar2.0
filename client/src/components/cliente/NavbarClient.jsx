@@ -23,7 +23,7 @@ const Navbar = ({ onOpenCart, itemsCount, onOpenLogin }) => {
 						/>
 					</div>
 					{/* Título: Usamos ml-6 (margen izquierdo) en lugar de gap para alejarlo bien de la punta del rombo */}
-					<div className="ml-6 text-xl md:text-2xl font-serif font-bold tracking-widest uppercase drop-shadow-sm group-hover:text-pastel-cream transition-colors duration-300">
+					<div className="ml-6 text-xl md:text-2xl font-serif font-bold tracking-widest uppercase drop-shadow-sm group-hover:text-pastel-cream drop-shadow-[0_0_8px_rgba(197,168,89,0.4)] group-hover:drop-shadow-[0_0_12px_rgba(197,168,89,0.7)] transition-colors duration-300">
 						<h1>Vivero Daymar</h1>
 					</div>
 				</div>
@@ -50,7 +50,7 @@ const Navbar = ({ onOpenCart, itemsCount, onOpenLogin }) => {
 					<button
 						onClick={onOpenLogin}
 						className="p-2 rounded-full hover:bg-vivero-gold/10 hover:text-pastel-cream transition-all duration-300"
-						aria-label="Acceso administrativo">
+						aria-label="Iniciar Sesión">
 						<User size={24} />
 					</button>
 				</div>

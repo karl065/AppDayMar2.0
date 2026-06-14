@@ -24,11 +24,12 @@ export const loginAction = async (userLogin, dispatch, navigate) => {
 			// 3️⃣ Emitir evento al socket para notificar que te conectaste
 			// (Eliminé el emit duplicado que tenías en tu código original)
 			emitEvent('usuario:login', data.usuario);
+			console.log(data);
 
 			// 4️⃣ Navegación (Ajusta los roles según los que vayas a usar)
 			if (
-				data.usuario.rol === 'Administrador' ||
-				data.usuario.rol === 'Supervisor'
+				data.usuario.rol.nombre === 'Administrador' ||
+				data.usuario.rol.nombre === 'SuperAdmin'
 			) {
 				navigate('/admin');
 			} else {
