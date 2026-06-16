@@ -9,6 +9,8 @@ import TablaTipos from './tablas/TablaTipos.jsx';
 import ModalBase from '../../../components/ui/Modal.jsx';
 import FormularioCrearTipo from '../../formularios/tipos/FormCrearTipo.jsx';
 import FormularioCrearProducto from '../../formularios/productos/CrearProductosFrom.jsx';
+import TablaCategorias from './tablas/TablaCategorias.jsx';
+import FormularioCrearCategorias from '../../formularios/categorias/CrearCategoriasForm.jsx';
 
 const PanelAdministrativo = () => {
 	const { seccion, modalCrearAbierto, setModalCrearAbierto } =
@@ -19,7 +21,7 @@ const PanelAdministrativo = () => {
 			case 'productos':
 				return <TablaProductos />;
 			case 'categorias':
-				return <div>Tabla Categorías</div>;
+				return <TablaCategorias />;
 			case 'tipos':
 				return <TablaTipos />;
 			case 'usuarios':
@@ -38,6 +40,8 @@ const PanelAdministrativo = () => {
 		switch (seccion) {
 			case 'productos':
 				return <FormularioCrearProducto {...props} />;
+			case 'categorias':
+				return <FormularioCrearCategorias {...props} />;
 			case 'tipos':
 				return <FormularioCrearTipo {...props} />;
 			// case 'categorias': return <FormularioCrearCategoria {...props} />;

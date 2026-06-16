@@ -115,3 +115,33 @@ export const alertConfirm = async (title, text) => {
 	// Retorna true si el usuario hizo clic en "Sí, continuar", de lo contrario false
 	return result.isConfirmed;
 };
+
+export const alertDeleteWithTransfer = async (title, text, opciones) => {
+	// opciones debe ser un array de objetos: [{id: '1', nombre: 'A'}, {id: '2', nombre: 'B'}]
+	const inputOptions = opciones.reduce(
+		(acc, item) => ({
+			...acc,
+			[item.id]: item.nombre,
+		}),
+		{},
+	);
+
+	const result = await Swal.fire({
+		title: title,
+		text: text,
+		icon: 'warning',
+		input: 'select',
+		inputOptions: inputOptions,
+		inputPlaceholder: 'Selecciona el destino...',
+		showCancelButton: true,
+		confirmButtonColor: '#1C3127', // Vivero-dark
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Eliminar y Transferir',
+		cancelButtonText: 'Cancelar',
+		inputValidator: (value) => {
+			if (!value) return '¡Debes seleccionar una opción!';
+		},
+	});
+
+	return result; // Retorna { isConfirmed: bool, value: string }
+};

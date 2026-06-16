@@ -7,9 +7,13 @@ import { alertSuccess } from '../../../helpers/alertas.jsx';
 const FormularioEditarTipo = ({ tipo, onClose }) => {
 	const dispatch = useDispatch();
 	const formik = useFormik({
-		initialValues: { nombre: tipo?.nombre || '' },
+		initialValues: {
+			nombre: tipo?.nombre || '',
+			descripcion: tipo?.descripcion || '',
+		},
 		validationSchema: Yup.object({
 			nombre: Yup.string().required('Requerido'),
+			descripcion: Yup.string().required('Coloca una descripcion'),
 		}),
 		onSubmit: async (values) => {
 			await actualizarTiposAction(dispatch, tipo.id, values);
@@ -23,6 +27,12 @@ const FormularioEditarTipo = ({ tipo, onClose }) => {
 			<input
 				name="nombre"
 				value={formik.values.nombre}
+				onChange={formik.handleChange}
+				className="w-full p-2 border rounded"
+			/>
+			<input
+				name="descripcion"
+				value={formik.values.descripcion}
 				onChange={formik.handleChange}
 				className="w-full p-2 border rounded"
 			/>

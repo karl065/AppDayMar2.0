@@ -8,8 +8,10 @@ const crearCategoriasServices = async (nuevaCategoria) => {
 			nuevaCategoria,
 			{
 				withCredentials: true,
-			}
+			},
 		);
+
+		console.log(data);
 		return data;
 	} catch (error) {
 		console.log(error);

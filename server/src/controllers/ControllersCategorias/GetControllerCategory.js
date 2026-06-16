@@ -12,7 +12,9 @@ const getControllerCategorias = async (query) => {
 
 		const categorias = await Categorias.find(
 			Object.keys(filtro).length > 0 ? filtro : {},
-		).populate('productos');
+		)
+			.populate('productos')
+			.populate('tipo');
 
 		return categorias;
 	} catch (error) {

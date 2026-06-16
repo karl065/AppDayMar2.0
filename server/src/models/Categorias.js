@@ -7,10 +7,6 @@ const CategoriasSchema = new mongoose.Schema({
 		required: true,
 		trim: true,
 	},
-	imagen: {
-		type: String,
-		required: true,
-	},
 	tipo: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Tipos',
