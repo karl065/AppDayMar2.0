@@ -1,6 +1,6 @@
-import Productos from '../../models/Productos.js';
 import analizarEsquemaPut from '../../helpers/analizadorSchemas/analizadorSchemasPut.js';
-import putGeneral from '../../helpers/organizadoresGenerales/PutGeneral.js';
+import putGeneral from '../../helpers/organizadoresGenerales/putGeneral.js';
+import Productos from '../../models/Productos.js';
 
 const putControllerProductos = async (updateData, idProducto) => {
 	try {
