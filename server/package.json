@@ -1,6 +1,7 @@
 {
 	"name": "serverdaymar2.0",
 	"version": "1.0.0",
+	"type": "module",
 	"description": "Server basico de la aplicacion de DayMar",
 	"main": "index.js",
 	"scripts": {
