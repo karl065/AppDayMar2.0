@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
-import Usuarios from './../../models/Usuarios';
-import Roles from './../../models/Roles';
+import Usuarios from './../../models/Usuarios.js';
+import Roles from './../../models/Roles.js';
 
 const postControllerUsuario = async (usuario) => {
 	try {
