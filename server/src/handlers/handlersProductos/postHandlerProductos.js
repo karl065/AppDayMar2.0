@@ -1,4 +1,4 @@
-import postControllerProductos from '../../controllers/controllersProductos/postControllerProductos.js';
+import postControllerProductos from './../../controllers/ControllersProductos/postControllerProductos.js';
 
 const postHandlerProductos = async (req, res) => {
 	try {
