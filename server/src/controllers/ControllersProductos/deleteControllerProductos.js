@@ -1,6 +1,6 @@
-import analizarEsquemaDelete from '../../helpers/analizadorSchemas/analizadorSchemasDelete.js';
-import deleteGeneral from '../../helpers/organizadoresGenerales/deleteGeneral.js';
 import Productos from '../../models/Productos.js';
+import analizarEsquemaDelete from './../../helpers/analizadorSchemas/analizadorSchemasDelete.js';
+import deleteGeneral from './../../helpers/organizadoresGenerales/deleteGeneral.js';
 
 const deleteControllerProducto = async (idProducto, idNuevoProducto = null) => {
 	try {
