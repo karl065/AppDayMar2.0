@@ -1,7 +1,7 @@
 import Roles from '../../models/Roles.js';
 import analizarEsquemaPut from '../../helpers/analizadorSchemas/analizadorSchemasPut.js';
-import putGeneral from '../../helpers/organizadoresGenerales/PutGeneral.js';
 import sanitizarRol from './../../helpers/sanitizadores/sanitizadorRoles.js';
+import putGeneral from './../../helpers/organizadoresGenerales/putGeneral.js';
 
 const putControllerRoles = async (roleUpdate, idRol) => {
 	try {
