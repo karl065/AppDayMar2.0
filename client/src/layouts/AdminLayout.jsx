@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SidebarAdmin from '../components/admin/SidebarAdmin.jsx';
-import NavbarAdmin from '../components/admin/NavbarAdmin.jsx';
-import { logoutAction } from '../redux/admin/actions/logoutAction.jsx';
-import { alertConfirm } from '../helpers/alertas.jsx';
+import { alertConfirm } from './../helpers/alertas.jsx';
+import { logoutAction } from './../redux/admin/actions/logoutAction.jsx';
+import SidebarAdmin from './../components/Admin/SidebarAdmin.jsx';
+import NavbarAdmin from './../components/Admin/NavbarAdmin.jsx';
 
 const AdminLayout = () => {
 	const navigate = useNavigate();
