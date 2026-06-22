@@ -1,4 +1,4 @@
-import getControllerProductos from '../../controllers/controllersProductos/getControllerProductos.js';
+import getControllerProductos from '../../controllers/ControllersProductos/getControllerProductos.js';
 
 const getHandlerProductos = async (req, res) => {
 	try {
