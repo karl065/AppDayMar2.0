@@ -41,7 +41,7 @@ const NavbarAdmin = ({
 				{/* 3. LADO DERECHO: Acciones */}
 				<div className="flex flex-1 items-center justify-end gap-4 md:gap-6">
 					{/* BOTÓN CREAR DINÁMICO */}
-					{seccion !== 'dashboard' && (
+					{seccion !== 'dashboard' && seccion !== 'tienda' && (
 						<button
 							onClick={onOpenCreate}
 							className="flex items-center gap-2 px-3 py-1.5 md:px-4 bg-vivero-gold text-vivero-dark rounded-full font-bold hover:scale-105 transition-all">

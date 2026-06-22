@@ -1,9 +1,17 @@
 import { Router } from 'express';
-import HandlerCloudinaryWidget from '../../handlers/HandlerCloudinaryWidget/HandlerCloudinaryWidget';
+import handlerGetConfig from '../../handlers/HandlerCloudinaryWidget/handlerGetConfig.js';
+import handlerSignWidget from '../../handlers/HandlerCloudinaryWidget/handlerSignWidget.js';
+import handlerDeleteImagen from '../../handlers/HandlerCloudinaryWidget/handlerDeleteImagen.js';
 
 const router = Router();
 
-router.get('/', HandlerCloudinaryWidget.handlerCloudinaryWidget);
-router.post('/', HandlerCloudinaryWidget.handlerDeleteImagen);
+// /api/cloudinary/config -> Obtiene cloudName y apiKey
+router.get('/config', handlerGetConfig);
+
+// /api/cloudinary/sign -> Genera la firma
+router.post('/sign', handlerSignWidget);
+
+// /api/cloudinary/ -> Elimina la imagen
+router.post('/', handlerDeleteImagen);
 
 export default router;

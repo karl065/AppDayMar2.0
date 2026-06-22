@@ -6,7 +6,8 @@ const { LOGIN_SEG } = process.env;
 
 const loginHandler = async (req, res) => {
 	try {
-		const { token, usuario } = await loginController(req.body);
+		const { email, password } = req.body;
+		const { token, usuario } = await loginController(email, password);
 
 		// Configuración de Cookie Segura para Web (React)
 		res.cookie('token', token, {

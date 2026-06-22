@@ -1,11 +1,15 @@
 // src/components/admin/CargadorImagen.jsx
-import { useEffect } from 'react';
-import cloudinaryServices from '../../services/cloudinary/cloudinaryService';
-import { alertError } from '../../helpers/alertas';
+import { useEffect, useRef } from 'react';
+import { alertError } from '../../helpers/alertas.jsx';
+import getCloudinaryConfigService from './../../services/cloudinary/getCloudinaryConfigService.jsx';
+import signCloudinaryWidgetService from './../../services/cloudinary/signCloudinaryWidgetService.jsx';
 
 const CargadorImagen = ({ onUpload }) => {
+	// 1. Creamos una referencia persistente para guardar la instancia del widget
+	const widgetRef = useRef(null);
+
 	useEffect(() => {
-		// Solo inyectamos el script si no existe
+		// Inyectamos el script global de Cloudinary solo si no existe
 		if (!document.getElementById('cloudinary-script')) {
 			const script = document.createElement('script');
 			script.id = 'cloudinary-script';
@@ -16,36 +20,52 @@ const CargadorImagen = ({ onUpload }) => {
 	}, []);
 
 	const openWidget = async () => {
-		// Validamos que el script haya cargado
 		if (!window.cloudinary) {
 			alertError(
-				'El cargador de imágenes aún no está listo. Intenta de nuevo.',
+				'El servicio de imágenes se está cargando. Intenta de nuevo en un segundo.',
 			);
 			return;
 		}
 
 		try {
-			// 1. Obtener firma del backend
-			const data = await cloudinaryServices();
+			// 2. Patrón Singleton: Solo configuramos y creamos el widget si NO existe en la referencia
+			if (!widgetRef.current) {
+				// Obtenemos la configuración pública del backend
+				const config = await getCloudinaryConfigService();
 
-			const widget = window.cloudinary.createUploadWidget(
-				{
-					cloudName: data.cloudName,
-					uploadPreset: 'appDayMarOficial',
-					apiKey: data.apiKey,
-					signature: data.signature,
-					timestamp: data.timestamp,
-				},
-				(error, result) => {
-					if (!error && result && result.event === 'success') {
-						onUpload(result.info.secure_url);
-					}
-				},
-			);
-			widget.open();
+				// Guardamos la instancia en la referencia
+				widgetRef.current = window.cloudinary.createUploadWidget(
+					{
+						cloudName: config.cloudName,
+						apiKey: config.apiKey,
+						uploadPreset: 'appDayMarOficial',
+						multiple: false,
+
+						// Firma dinámica para autorizar la subida
+						uploadSignature: async (callback, params_to_sign) => {
+							try {
+								const signature =
+									await signCloudinaryWidgetService(params_to_sign);
+								callback(signature);
+							} catch (err) {
+								console.error('Error validando firma:', err);
+								alertError('No se pudo validar la firma de seguridad.');
+							}
+						},
+					},
+					(error, result) => {
+						if (!error && result && result.event === 'success') {
+							onUpload(result.info.secure_url);
+						}
+					},
+				);
+			}
+
+			// 3. Abrimos el widget reutilizando siempre la misma instancia
+			widgetRef.current.open();
 		} catch (error) {
-			console.error('Error al iniciar Cloudinary Widget:', error);
-			alertError('No se pudo conectar con el servicio de imágenes');
+			console.error('Error al iniciar el widget:', error);
+			alertError('Error de conexión con el servidor de imágenes.');
 		}
 	};
 

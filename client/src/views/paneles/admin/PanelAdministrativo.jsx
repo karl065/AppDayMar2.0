@@ -11,6 +11,10 @@ import FormularioCrearTipo from '../../formularios/tipos/FormCrearTipo.jsx';
 import FormularioCrearProducto from '../../formularios/productos/CrearProductosFrom.jsx';
 import TablaCategorias from './tablas/TablaCategorias.jsx';
 import FormularioCrearCategorias from '../../formularios/categorias/CrearCategoriasForm.jsx';
+import TablaUsuarios from './tablas/TablaUsuario.jsx';
+import TablaRoles from './tablas/TablaRoles.jsx';
+import FormularioCrearUsuario from '../../formularios/usuarios/FormCrearUsuario.jsx';
+import FormularioCrearRol from '../../formularios/roles/FormCrearRol.jsx';
 
 const PanelAdministrativo = () => {
 	const { seccion, modalCrearAbierto, setModalCrearAbierto } =
@@ -25,9 +29,9 @@ const PanelAdministrativo = () => {
 			case 'tipos':
 				return <TablaTipos />;
 			case 'usuarios':
-				return <div>Tabla Usuarios</div>;
+				return <TablaUsuarios />;
 			case 'roles':
-				return <div>Tabla Roles</div>;
+				return <TablaRoles />;
 			case 'tienda':
 			default:
 				return <Home />; // O un componente de bienvenida para el dashboard general
@@ -44,6 +48,10 @@ const PanelAdministrativo = () => {
 				return <FormularioCrearCategorias {...props} />;
 			case 'tipos':
 				return <FormularioCrearTipo {...props} />;
+			case 'usuarios':
+				return <FormularioCrearUsuario {...props} />;
+			case 'roles':
+				return <FormularioCrearRol {...props} />;
 			// case 'categorias': return <FormularioCrearCategoria {...props} />;
 			default:
 				return null;

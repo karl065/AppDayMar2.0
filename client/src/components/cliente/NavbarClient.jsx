@@ -1,62 +1,82 @@
-// src/components/cliente/Navbar.jsx
+// src/components/cliente/NavbarClient.jsx
+import { LogOut, User, ShoppingCart, Menu } from 'lucide-react';
 
-import { User, ClipboardList } from 'lucide-react';
-
-const Navbar = ({ onOpenCart, itemsCount, onOpenLogin }) => {
+const NavbarClient = ({
+	onOpenLogin,
+	onOpenRegister,
+	handleLogout,
+	user,
+	itemsCount,
+}) => {
 	return (
-		<nav className="flex h-16 sm:h-20 items-center bg-linear-to-r from-vivero-dark via-vivero-dark to-vivero-accent text-vivero-gold shadow-md border-b border-vivero-gold/40 relative z-50">
-			{/* El contenedor ahora es 'relative' para que el centro absoluto se guíe por él */}
-			<div className="w-full max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between relative">
-				{/* 1. LADO IZQUIERDO: Vacío por ahora, pero mantiene la estructura */}
-				<div className="flex-1"></div>
+		<nav className="h-16 sm:h-20 bg-vivero-dark text-vivero-gold shadow-md border-b border-vivero-gold/40 flex items-center px-4 md:px-10 z-50">
+			<div className="w-full flex items-center justify-between">
+				{/* 1. LADO IZQUIERDO: Logo y Menú */}
+				<div className="flex items-center gap-4">
+					<button className="md:hidden p-2 rounded-full hover:bg-vivero-gold/10">
+						<Menu size={24} />
+					</button>
 
-				{/* 2. CENTRO EXACTO: Posición absoluta para forzar el centro perfecto */}
-				<div className="absolute left-1/2 -translate-x-1/2 flex gap-6 sm:gap-8  items-center cursor-pointer group w-max">
-					{/* Rombo del logo */}
-					<div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center drop-shadow-[0_0_8px_rgba(197,168,89,0.4)] group-hover:drop-shadow-[0_0_12px_rgba(197,168,89,0.7)] transition-all duration-500 shrink-0s">
+					{/* LOGO RESTAURADO */}
+					<div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
 						<img
-							src={
-								'https://res.cloudinary.com/dpjeltekx/image/upload/v1781398170/appDayMar/app/ChatGPT_Image_13_jun_2026_07_47_48_p.m_kastgo.png'
-							}
+							src="https://res.cloudinary.com/dpjeltekx/image/upload/v1781398170/appDayMar/app/ChatGPT_Image_13_jun_2026_07_47_48_p.m_kastgo.png"
 							alt="Logo Vivero Daymar"
-							className="w-full h-full object-contain"
+							className="w-full h-full object-contain drop-shadow-md"
 						/>
 					</div>
-					{/* Título: Usamos ml-6 (margen izquierdo) en lugar de gap para alejarlo bien de la punta del rombo */}
-					<div className="ml-6 text-xl md:text-2xl font-serif font-bold tracking-widest uppercase drop-shadow-sm group-hover:text-pastel-cream drop-shadow-[0_0_8px_rgba(197,168,89,0.4)] group-hover:drop-shadow-[0_0_12px_rgba(197,168,89,0.7)] transition-colors duration-300">
-						<h1>Vivero Daymar</h1>
+					<div className="text-xl font-serif font-bold tracking-widest uppercase hidden sm:block">
+						Daymar
 					</div>
 				</div>
 
-				{/* 3. LADO DERECHO: Controles. Relative z-10 para asegurar que queden por encima del centro si la pantalla es muy pequeña */}
-				<div className="flex flex-1 items-center justify-end gap-6 md:gap-8 relative z-10">
-					{/* Botón de Cotización */}
-					<button
-						onClick={onOpenCart}
-						className="relative p-2 rounded-full hover:bg-vivero-gold/10 hover:text-pastel-cream transition-all duration-300"
-						aria-label="Ver mi pedido">
-						<ClipboardList size={26} />
+				{/* 2. LADO DERECHO: Acciones (Dinámico) */}
+				<div className="flex items-center gap-4 md:gap-6">
+					{/* Botón Carrito */}
+					<button className="relative p-2 hover:text-white transition-colors">
+						<ShoppingCart size={22} />
 						{itemsCount > 0 && (
-							<span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-lg border-2 border-vivero-dark animate-pulse">
+							<span className="absolute -top-1 -right-1 bg-vivero-gold text-vivero-dark text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
 								{itemsCount}
 							</span>
 						)}
 					</button>
 
-					{/* Separador sutil */}
-					<div className="hidden sm:block w-px h-7 bg-vivero-gold/30"></div>
-
-					{/* Botón de Acceso (Admin) */}
-					<button
-						onClick={onOpenLogin}
-						className="p-2 rounded-full hover:bg-vivero-gold/10 hover:text-pastel-cream transition-all duration-300"
-						aria-label="Iniciar Sesión">
-						<User size={24} />
-					</button>
+					{user ? (
+						/* 🔥 VISTA LOGUEADO */
+						<div className="flex items-center gap-4 border-l border-vivero-gold/30 pl-4">
+							<div className="flex items-center gap-2">
+								<User size={18} className="text-vivero-gold" />
+								<span className="text-sm font-semibold hidden sm:block">
+									{user.nombre}
+								</span>
+							</div>
+							<button
+								onClick={handleLogout}
+								className="text-red-400 hover:text-red-300 transition-colors"
+								title="Cerrar sesión">
+								<LogOut size={20} />
+							</button>
+						</div>
+					) : (
+						/* 🔥 VISTA INVITADO */
+						<div className="flex items-center gap-3">
+							<button
+								onClick={onOpenLogin}
+								className="text-sm font-bold hover:text-white transition-colors">
+								Entrar
+							</button>
+							<button
+								onClick={onOpenRegister}
+								className="text-sm font-bold bg-vivero-gold text-vivero-dark px-4 py-2 rounded-full hover:scale-105 transition-all">
+								Registrar
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 		</nav>
 	);
 };
 
-export default Navbar;
+export default NavbarClient;

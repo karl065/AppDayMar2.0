@@ -12,6 +12,10 @@ import {
 	setAppDispatch,
 } from '../../services/sockets/socketServices.jsx';
 import { useNavigate } from 'react-router-dom';
+import {
+	obtenerCiudadesAction,
+	obtenerDepartamentosAction,
+} from '../../redux/ubicacion/actions/obtenerUbicacionesAction.jsx';
 
 // Ahora recibe 'children' (que será App.jsx)
 const AuthLoader = ({ children }) => {
@@ -25,10 +29,16 @@ const AuthLoader = ({ children }) => {
 			setAppDispatch(dispatch);
 			connectSocket();
 
-			// 2. Disparamos la carga del catálogo público
-			obtenerTiposAction(dispatch);
-			obtenerProductosAction(dispatch);
-			obtenerCategoriasAction(dispatch);
+			// 2. Disparamos la carga del catálogo público y UBICACIÓN
+			// Los hacemos en paralelo para que la carga sea más rápida (Promise.all)
+			await Promise.all([
+				obtenerTiposAction(dispatch),
+				obtenerProductosAction(dispatch),
+				obtenerCategoriasAction(dispatch),
+				obtenerDepartamentosAction(dispatch),
+				obtenerCiudadesAction(dispatch), // <--- Carga inicial
+				obtenerRolesAction(dispatch),
+			]);
 
 			// 3. Verificamos la sesión
 			const hasSession = localStorage.getItem('hasSession');
@@ -48,7 +58,7 @@ const AuthLoader = ({ children }) => {
 		};
 
 		inicializarApp();
-	}, [dispatch]);
+	}, [dispatch, navigate]);
 
 	// Mientras carga la info, mostramos un loader en lugar de las rutas
 	if (!isReady) {

@@ -5,7 +5,7 @@ const postHandlerUsuario = async (req, res) => {
 		const usuarioNuevo = await postControllerUsuario(req.body);
 		return res.status(201).json(usuarioNuevo);
 	} catch (error) {
-		return res.status(400).json({ error: error.message });
+		return res.status(400).json({ message: error.message });
 	}
 };
 

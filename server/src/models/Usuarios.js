@@ -27,6 +27,9 @@ const UsuarioSchema = new mongoose.Schema({
 		required: true,
 		trim: true,
 	},
+	departamento: { type: String, trim: true },
+	ciudad: { type: String, trim: true },
+	direccion: { type: String, trim: true },
 	rol: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Roles',

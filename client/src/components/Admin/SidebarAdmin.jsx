@@ -1,4 +1,3 @@
-// src/components/admin/SidebarAdmin.jsx
 import {
 	LayoutDashboard,
 	Package,
@@ -25,7 +24,14 @@ const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
 
 	return (
 		<aside
-			className={`fixed md:relative z-50 w-64 h-full bg-vivero-dark text-vivero-gold transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+			/* 🔥 EL CAMBIO ESTÁ AQUÍ 🔥
+               - Se quitó md:relative (ahora siempre es fixed)
+               - Se agregó top-0 left-0 para anclarlo
+               - Se quitó md:translate-x-0 para que respete el estado isSidebarOpen en todas las pantallas
+            */
+			className={`fixed top-0 left-0 z-50 w-64 h-full bg-vivero-dark text-vivero-gold transition-transform duration-300 ${
+				isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+			}`}>
 			<div className="p-5 flex items-center justify-between border-b border-vivero-gold/30">
 				<h2 className="font-serif text-xl font-bold uppercase tracking-widest truncate mr-2">
 					Daymar Admin
@@ -44,7 +50,7 @@ const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
 						key={item.key}
 						onClick={() => {
 							setSeccion(item.key);
-							setIsSidebarOpen(false);
+							setIsSidebarOpen(false); // Cierra el sidebar al elegir una opción
 						}}
 						className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-vivero-gold hover:text-vivero-dark transition-all">
 						{item.icon}

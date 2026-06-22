@@ -22,6 +22,7 @@ const TablaProductos = () => {
 	// 1. Definición de columnas
 	const columns = [
 		{ key: 'info', label: 'Producto' },
+		{ key: 'imagen', label: 'Imagen' },
 		{ key: 'precio', label: 'Precio' },
 		{ key: 'stock', label: 'Stock' },
 	];
@@ -32,6 +33,13 @@ const TablaProductos = () => {
 		nombre: prod.nombre, // Pasamos el nombre real para que el formulario lo reciba
 		precio: prod.precio, // Pasamos el valor numérico para el formulario
 		stock: prod.stock, // Pasamos el stock numérico para el formulario
+		imagen: (
+			<img
+				src={prod.imagen}
+				alt={prod.nombre}
+				className="w-12 h-12 object-cover rounded-md border border-vivero-gold/20 shadow-sm"
+			/>
+		),
 		info: (
 			<div className="flex flex-col">
 				<span className="font-bold text-vivero-gold">{prod.nombre}</span>
@@ -53,7 +61,9 @@ const TablaProductos = () => {
 
 	// 3. Handlers para las acciones
 	const handleEdit = (row) => {
-		setProductoSeleccionado(row); // Guardamos la fila completa con los datos originales
+		const original = productos.find((p) => p._id === row.id);
+
+		setProductoSeleccionado(original);
 		setModalAbierto(true);
 	};
 

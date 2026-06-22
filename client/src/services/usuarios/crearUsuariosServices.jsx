@@ -8,12 +8,14 @@ const crearUsuariosServices = async (nuevoUsuario) => {
 			nuevoUsuario,
 			{
 				withCredentials: true,
-			}
+			},
 		);
 
 		return data;
 	} catch (error) {
-		console.log(error);
+		// Si Axios tiene respuesta, usamos su mensaje, pero preservamos la causa
+		const message = error.response?.data?.message || 'Error al crear usuario';
+		throw new Error(message, { cause: error });
 	}
 };
 

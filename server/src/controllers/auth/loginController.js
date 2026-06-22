@@ -8,9 +8,10 @@ dotenv.config();
 
 const { SECRETA } = process.env;
 
-const loginController = async ({ correo, password }) => {
+const loginController = async (email, password) => {
 	try {
-		const usuario = await Usuarios.findOne({ correo }).populate('rol');
+		const usuario = await Usuarios.findOne({ email }).populate('rol');
+
 		if (!usuario) throw new Error('Credenciales incorrectas');
 
 		// Validar contraseña
