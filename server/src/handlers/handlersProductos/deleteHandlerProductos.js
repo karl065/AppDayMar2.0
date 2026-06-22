@@ -1,4 +1,4 @@
-import deleteControllerProducto from '../../controllers/controllersProductos/deleteControllerProductos.js';
+import deleteControllerProducto from '../../controllers/ControllersProductos/deleteControllerProductos.js';
 
 const deleteHandlerProductos = async (req, res) => {
 	try {
