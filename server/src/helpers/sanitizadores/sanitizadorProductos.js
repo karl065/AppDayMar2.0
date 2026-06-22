@@ -1,4 +1,4 @@
-import sanitizarUsuario from './sanitizadorUsuarios';
+import sanitizarUsuario from './sanitizadorUsuarios.js';
 
 const sanitizadorProductos = (producto) => {
 	return {
