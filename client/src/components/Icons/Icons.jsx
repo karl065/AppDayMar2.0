@@ -190,3 +190,7 @@ export const StoreIcon = ({ className }) => (
 export const AdminIcon = ({ className }) => (
 	<span className={className}>💼</span>
 );
+
+export const DownloadIcon = ({ className }) => (
+	<span className={className}>📥</span>
+);

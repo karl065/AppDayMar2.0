@@ -30,6 +30,11 @@ const Home = () => {
 		);
 	};
 
+	const limpiarCotizacion = () => {
+		setCotizacion([]); // Esto vacía el estado y automáticamente oculta el botón "Cotizar"
+		setModalContacto(false); // Cerramos el modal
+	};
+
 	return (
 		<div className="p-8">
 			<h2 className="text-3xl font-bold mb-6">Nuestro Catálogo</h2>
@@ -63,6 +68,7 @@ const Home = () => {
 			<ModalDatosContacto
 				isOpen={modalContacto}
 				onClose={() => setModalContacto(false)}
+				limpiarCotizacion={limpiarCotizacion}
 				cotizacion={cotizacion}
 			/>
 

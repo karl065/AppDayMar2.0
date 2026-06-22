@@ -6,6 +6,7 @@ import {
 	ShieldCheck,
 	Layers,
 	X,
+	FileText,
 } from 'lucide-react';
 
 const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
@@ -18,6 +19,7 @@ const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
 		{ name: 'Productos', key: 'productos', icon: <Package size={20} /> },
 		{ name: 'Categorías', key: 'categorias', icon: <Layers size={20} /> },
 		{ name: 'Tipos', key: 'tipos', icon: <Tag size={20} /> },
+		{ name: 'Cotizaciones', key: 'cotizaciones', icon: <FileText size={20} /> },
 		{ name: 'Usuarios', key: 'usuarios', icon: <Users size={20} /> },
 		{ name: 'Roles', key: 'roles', icon: <ShieldCheck size={20} /> },
 	];

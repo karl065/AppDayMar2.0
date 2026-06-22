@@ -16,7 +16,6 @@ const ClientLayout = () => {
 
 	// Obtenemos el usuario del estado para saber si está logueado
 	const { login } = useSelector((state) => state.login);
-	console.log(login);
 	const userId = login?.usuario?._id || login?._id;
 
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);

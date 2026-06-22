@@ -15,6 +15,7 @@ import TablaUsuarios from './tablas/TablaUsuario.jsx';
 import TablaRoles from './tablas/TablaRoles.jsx';
 import FormularioCrearUsuario from '../../formularios/usuarios/FormCrearUsuario.jsx';
 import FormularioCrearRol from '../../formularios/roles/FormCrearRol.jsx';
+import TablaCotizaciones from './tablas/TablaCotizaciones.jsx';
 
 const PanelAdministrativo = () => {
 	const { seccion, modalCrearAbierto, setModalCrearAbierto } =
@@ -24,6 +25,8 @@ const PanelAdministrativo = () => {
 		switch (seccion) {
 			case 'productos':
 				return <TablaProductos />;
+			case 'cotizaciones':
+				return <TablaCotizaciones />;
 			case 'categorias':
 				return <TablaCategorias />;
 			case 'tipos':

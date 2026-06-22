@@ -24,7 +24,6 @@ export const loginAction = async (userLogin, dispatch, navigate) => {
 			// 3️⃣ Emitir evento al socket para notificar que te conectaste
 			// (Eliminé el emit duplicado que tenías en tu código original)
 			emitEvent('usuario:login', data.usuario);
-			console.log(data);
 
 			// 4️⃣ Navegación (Ajusta los roles según los que vayas a usar)
 			if (
@@ -37,9 +36,11 @@ export const loginAction = async (userLogin, dispatch, navigate) => {
 			}
 
 			alertSuccess(`Bienvenido ${data.usuario.nombre}`);
+			return true;
 		}
 
 		loadingAction(false, dispatch);
+		return false;
 	} catch (error) {
 		// Mejor manejo de errores por si el back devuelve el error estructurado
 		const errorMessage = error.response?.data?.error || error.message;

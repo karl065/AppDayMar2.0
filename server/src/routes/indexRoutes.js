@@ -7,6 +7,7 @@ import categorias from './routesCategorias/routesCategorias.js';
 import tipos from './routesTipos/routesTipos.js';
 import auth from './rutasAuth/rutasAuth.js';
 import CloudinaryRoutesWidget from './CloudinaryRoutes/CloudinaryRoutesWidget.js';
+import cotizaciones from './routesCotizaciones/routesCotizaciones.js';
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.use('/auth', auth);
 router.use('/productos', productos);
 router.use('/categorias', categorias);
 router.use('/tipos', tipos);
+router.use('/cotizaciones', cotizaciones);
 
 // Servicios externos
 router.use('/cloudinary', CloudinaryRoutesWidget);

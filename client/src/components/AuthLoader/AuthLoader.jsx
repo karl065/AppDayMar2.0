@@ -16,6 +16,7 @@ import {
 	obtenerCiudadesAction,
 	obtenerDepartamentosAction,
 } from '../../redux/ubicacion/actions/obtenerUbicacionesAction.jsx';
+import { obtenerCotizacionesAction } from './../../redux/cotizaciones/actions/obtenerCotizacionesAction.jsx';
 
 // Ahora recibe 'children' (que será App.jsx)
 const AuthLoader = ({ children }) => {
@@ -50,6 +51,7 @@ const AuthLoader = ({ children }) => {
 				if (loginExitoso) {
 					await obtenerRolesAction(dispatch);
 					await obtenerUsuariosAction(dispatch);
+					await obtenerCotizacionesAction(dispatch);
 				}
 			}
 

@@ -34,6 +34,7 @@ const UsuarioSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Roles',
 	},
+	cotizaciones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cotizaciones' }],
 	status: {
 		type: Boolean,
 		default: false,

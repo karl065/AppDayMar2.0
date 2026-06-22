@@ -5,6 +5,7 @@ import productosSockets from './modulos/productosSockets.js';
 import rolesSockets from './modulos/rolesSockets.js';
 import tiposSockets from './modulos/tiposSockets.js';
 import usuariosSockets from './modulos/usuariosSockets.js';
+import cotizacionesSockets from './modulos/cotizacionesSockets.js';
 
 const registerSocketModules = (io) => {
 	io.on('connection', (socket) => {
@@ -16,6 +17,7 @@ const registerSocketModules = (io) => {
 		categoriasSockets(io, socket);
 		tiposSockets(io, socket);
 		rolesSockets(io, socket);
+		cotizacionesSockets(io, socket);
 
 		socket.on('disconnect', () => {
 			console.log('Cliente desconectado:', socket.id);

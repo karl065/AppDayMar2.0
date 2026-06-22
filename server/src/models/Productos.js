@@ -33,6 +33,7 @@ const ProductosSchema = new mongoose.Schema({
 		ref: 'Categorias',
 		required: true,
 	},
+	cotizaciones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cotizaciones' }],
 	usuario: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Usuarios',

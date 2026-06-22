@@ -1,4 +1,5 @@
 import categoriasSocketsListeners from './modulos/categorias/categoriasSocket.jsx';
+import cotizacionesSocketsListeners from './modulos/cotizaciones/cotizacionesSocket.jsx';
 import productosSocketsListeners from './modulos/productos/productosSocket.jsx';
 import rolesSocketsListeners from './modulos/roles/rolesSockets.jsx';
 import tiposSocketsListeners from './modulos/tipos/tiposSockets.jsx';
@@ -11,6 +12,7 @@ const registerClientModules = (socket) => {
 	tiposSocketsListeners(socket);
 	categoriasSocketsListeners(socket);
 	rolesSocketsListeners(socket);
+	cotizacionesSocketsListeners(socket);
 
 	// ... registra otros modulos ...
 };

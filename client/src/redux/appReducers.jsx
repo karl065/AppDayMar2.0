@@ -6,6 +6,7 @@ import loadingReducer from './app/slices/loadingSlice.jsx';
 // admin Slices
 import loginReducer from './admin/slices/loginSlice.jsx';
 import usuariosReducer from './admin/slices/usuariosSlice.jsx';
+import cotizacionesReducer from './cotizaciones/slices/cotizacionesSlices.jsx';
 
 // roles Slices
 import rolesReducer from './roles/slices/rolesSlice.jsx';
@@ -28,6 +29,7 @@ const appReducers = combineReducers({
 	// admin reducers
 	login: loginReducer,
 	usuarios: usuariosReducer,
+	cotizaciones: cotizacionesReducer,
 	// roles reducers
 	roles: rolesReducer,
 

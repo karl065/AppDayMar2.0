@@ -16,6 +16,7 @@ const MobileTable = ({
 	onEdit,
 	onDelete,
 	onViewDetail,
+	renderActions,
 }) => {
 	return (
 		<div className="flex flex-col w-full h-full bg-transparent rounded-lg shadow-xl relative  overflow-hidden">
@@ -32,7 +33,7 @@ const MobileTable = ({
 									{col.label}
 								</th>
 							))}
-							{(onEdit || onDelete || onViewDetail) && (
+							{(onEdit || onDelete || onViewDetail || renderActions) && (
 								<th className="p-3 text-center  w-20 font-bold text-xs">
 									Acciones
 								</th>
@@ -81,6 +82,7 @@ const MobileTable = ({
 													<TrashIcon />
 												</button>
 											)}
+											{renderActions && renderActions(row)}
 										</div>
 									</td>
 								)}
