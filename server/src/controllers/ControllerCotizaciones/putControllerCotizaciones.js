@@ -1,7 +1,6 @@
-// src/controllers/ControllersCotizaciones/putControllerCotizaciones.js
-import Cotizaciones from '../../models/Cotizaciones.js';
 import analizarEsquemaPut from '../../helpers/analizadorSchemas/analizadorSchemasPut.js';
-import putGeneral from '../../helpers/organizadoresGenerales/PutGeneral.js';
+import putGeneral from '../../helpers/organizadoresGenerales/putGeneral.js';
+import Cotizaciones from './../../models/Cotizaciones.js';
 
 const putControllerCotizaciones = async (updateData, idCotizacion) => {
 	try {
