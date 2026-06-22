@@ -1,8 +1,8 @@
 import express from 'express';
 import getHandlerTipos from './../../handlers/handlersTipos/getHandlerTipo.js';
-import postHandlerTipos from './../../handlers/handlersTipos/postHandlerTipo';
-import putHandlerTipos from './../../handlers/handlersTipos/putHandlerTipo';
-import deleteHandlerTipos from './../../handlers/handlersTipos/deleteHandlerTipo';
+import postHandlerTipos from './../../handlers/handlersTipos/postHandlerTipo.js';
+import putHandlerTipos from './../../handlers/handlersTipos/putHandlerTipo.js';
+import deleteHandlerTipos from './../../handlers/handlersTipos/deleteHandlerTipo.js';
 
 const router = express.Router();
 
