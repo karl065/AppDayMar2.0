@@ -1,6 +1,6 @@
-import analizarEsquemaPut from '../../helpers/analizadorSchemas/analizadorSchemasPut.js';
-import putGeneral from '../../helpers/organizadoresGenerales/PutGeneral.js';
-import Categorias from '../../models/Categorias.js';
+import analizarEsquemaPut from './../../helpers/analizadorSchemas/analizadorSchemasPut.js';
+import putGeneral from './../../helpers/organizadoresGenerales/putGeneral.js';
+import Categorias from './../../models/Categorias.js';
 
 const putControllerCategorias = async (dataUpdate, id) => {
 	try {
