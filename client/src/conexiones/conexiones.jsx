@@ -1,6 +1,7 @@
 const server = {
 	api: {
-		baseURL: 'http://localhost:3000/',
+		// baseURL: 'http://localhost:3000/',
+		baseURL: 'https://appdaymar2-0.onrender.com',
 	},
 };
 
