@@ -1,6 +1,6 @@
 import analizarEsquemaPut from '../../helpers/analizadorSchemas/analizadorSchemasPut.js';
-import putGeneral from '../../helpers/organizadoresGenerales/PutGeneral.js';
-import TiposModel from '../../models/Tipos.js';
+import putGeneral from '../../helpers/organizadoresGenerales/putGeneral.js';
+import TiposModel from './../../models/Tipos.js';
 
 const putControllerTipo = async (dataUpdate, idTipo) => {
 	try {
