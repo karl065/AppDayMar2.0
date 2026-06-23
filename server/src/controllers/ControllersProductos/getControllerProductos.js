@@ -13,7 +13,13 @@ const getControllerProductos = async (query) => {
 		const productos = await Productos.find(
 			Object.keys(filtro).length > 0 ? filtro : {},
 		)
-			.populate('categoria')
+			.populate({
+				path: 'categoria',
+				populate: {
+					path: 'tipo', // Esto llena el objeto 'tipo' dentro de 'categoria'
+					model: 'Tipos', // Asegúrate de usar el nombre correcto de tu modelo
+				},
+			})
 			.populate('usuario');
 
 		return productos;

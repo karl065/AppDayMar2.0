@@ -11,10 +11,17 @@ import {
 	alertSuccess,
 } from '../../../../helpers/alertas.jsx';
 import { eliminarUsuarioAction } from '../../../../redux/admin/actions/eliminarUsuarioAction.jsx';
+import FiltroUniversal from '../../../../components/Filtros/FiltroUniversal.jsx';
+import { useFiltrado } from '../../../../hooks/useFiltrado.jsx';
 
 const TablaUsuarios = () => {
 	const dispatch = useDispatch();
 	const { usuarios } = useSelector((state) => state.usuarios);
+
+	// Integración del filtro
+	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
+		useFiltrado(usuarios, ['nombre', 'apellido', 'email', 'rol.nombre']);
+
 	const [modal, setModal] = useState({ abierto: false, usuario: null });
 
 	const columns = [
@@ -22,7 +29,8 @@ const TablaUsuarios = () => {
 		{ key: 'rol', label: 'Rol' },
 	];
 
-	const data = usuarios.map((u) => ({
+	// Mapeo usando datosFiltrados
+	const data = datosFiltrados.map((u) => ({
 		id: u._id,
 		rol: u.rol?.nombre || 'Sin Rol',
 		info: (
@@ -59,12 +67,23 @@ const TablaUsuarios = () => {
 
 	return (
 		<div className="w-full">
-			<MobileTable
-				columns={columns}
-				data={data}
-				onEdit={handleEdit}
-				onDelete={handleDelete}
+			<FiltroUniversal
+				data={usuarios}
+				busqueda={busqueda}
+				onSearch={setBusqueda}
+				onFilter={aplicarFiltro}
+				filtrosActuales={filtros}
+				config={[{ label: 'Rol', key: 'rol.nombre' }]}
 			/>
+
+			<div className="p-4 h-[calc(100vh-250px)] overflow-y-auto">
+				<MobileTable
+					columns={columns}
+					data={data}
+					onEdit={handleEdit}
+					onDelete={handleDelete}
+				/>
+			</div>
 
 			<ModalBase
 				isOpen={modal.abierto}

@@ -10,10 +10,17 @@ import {
 	alertError,
 } from '../../../../helpers/alertas.jsx';
 import { eliminarTiposAction } from '../../../../redux/tipos/actions/eliminarTiposAction.jsx';
+import FiltroUniversal from '../../../../components/Filtros/FiltroUniversal.jsx';
+import { useFiltrado } from '../../../../hooks/useFiltrado.jsx';
 
 const TablaTipos = () => {
 	const dispatch = useDispatch();
 	const { tipos } = useSelector((state) => state.tipos);
+
+	// Integración del filtro
+	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
+		useFiltrado(tipos, ['nombre', 'descripcion']);
+
 	const [modal, setModal] = useState({ abierto: false, modo: null });
 	const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
 
@@ -49,7 +56,8 @@ const TablaTipos = () => {
 		{ key: 'descripcion', label: 'Descripcion' },
 	];
 
-	const data = tipos.map((t) => ({
+	// Mapeo usando datosFiltrados
+	const data = datosFiltrados.map((t) => ({
 		id: t._id,
 		nombre: <span className="font-bold text-vivero-gold">{t.nombre}</span>,
 		descripcion: (
@@ -58,20 +66,31 @@ const TablaTipos = () => {
 	}));
 
 	return (
-		<div className="h-full w-full">
-			<MobileTable
-				columns={columns}
-				data={data}
-				onEdit={(row) => {
-					const original = tipos.find((t) => t._id === row.id);
-					setTipoSeleccionado(original);
-					setModal({ abierto: true, modo: 'editar' });
-				}}
-				onDelete={(row) => {
-					const original = tipos.find((t) => t._id === row.id);
-					handleEliminar(original);
-				}}
+		<div className="w-full">
+			<FiltroUniversal
+				data={tipos}
+				busqueda={busqueda}
+				onSearch={setBusqueda}
+				onFilter={aplicarFiltro}
+				filtrosActuales={filtros}
+				config={[]} // Sin selects, solo usamos la barra de búsqueda por texto
 			/>
+
+			<div className="p-4 h-[calc(100vh-250px)] overflow-y-auto">
+				<MobileTable
+					columns={columns}
+					data={data}
+					onEdit={(row) => {
+						const original = tipos.find((t) => t._id === row.id);
+						setTipoSeleccionado(original);
+						setModal({ abierto: true, modo: 'editar' });
+					}}
+					onDelete={(row) => {
+						const original = tipos.find((t) => t._id === row.id);
+						handleEliminar(original);
+					}}
+				/>
+			</div>
 
 			<ModalBase
 				isOpen={modal.abierto}

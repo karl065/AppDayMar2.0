@@ -31,7 +31,14 @@ const loginController = async (email, password) => {
 			token,
 			usuario: {
 				id: usuario._id,
-				nombre: usuario.nombre, // Asegúrate de traer lo que necesites
+				_id: usuario._id, // Algunos reducers buscan _id, mejor enviarlo también
+				nombre: usuario.nombre,
+				apellido: usuario.apellido,
+				email: usuario.email,
+				celular: usuario.celular,
+				departamento: usuario.departamento,
+				ciudad: usuario.ciudad,
+				direccion: usuario.direccion,
 				rol: usuario.rol,
 				status: true,
 			},

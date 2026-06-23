@@ -37,7 +37,7 @@ const PanelAdministrativo = () => {
 				return <TablaRoles />;
 			case 'tienda':
 			default:
-				return <Home />; // O un componente de bienvenida para el dashboard general
+				return <Home />;
 		}
 	};
 
@@ -67,7 +67,7 @@ const PanelAdministrativo = () => {
 			{renderContenido()}
 
 			{/* Modal Global de Creación */}
-			{seccion !== 'dashboard' && seccion !== 'tienda' && (
+			{seccion !== 'tienda' && (
 				<ModalBase
 					isOpen={modalCrearAbierto}
 					onClose={() => setModalCrearAbierto(false)}

@@ -4,11 +4,20 @@ import { useSelector } from 'react-redux';
 import CardProducto from '../components/cliente/CardProducto.jsx';
 import ModalDatosContacto from '../components/cliente/ModalDatosContacto.jsx';
 import ModalDetalleProducto from '../components/cliente/ModalDetalleProducto.jsx';
+import { useFiltrado } from '../hooks/useFiltrado.jsx';
+import FiltroUniversal from '../components/Filtros/FiltroUniversal.jsx';
 
 const Home = () => {
 	const productos = useSelector((state) => state.productos.productos);
 	const [cotizacion, setCotizacion] = useState([]);
 	const [modalContacto, setModalContacto] = useState(false);
+
+	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
+		useFiltrado(productos, [
+			'nombre',
+			'categoria.nombre',
+			'categoria.tipo.nombre',
+		]);
 
 	// 👈 Nuevo estado para controlar qué producto se abre en el modal de detalle
 	const [productoDetalle, setProductoDetalle] = useState(null);
@@ -37,23 +46,42 @@ const Home = () => {
 
 	return (
 		<div className="p-8">
-			<h2 className="text-3xl font-bold mb-6">Nuestro Catálogo</h2>
+			{/* 🔥 Filtro Universal conectado a la nueva jerarquía */}
+			<FiltroUniversal
+				data={productos}
+				config={[
+					{ label: 'Tipo', key: 'categoria.tipo.nombre' },
+					{ label: 'Categoría', key: 'categoria.nombre' },
+				]}
+				onFilter={aplicarFiltro}
+				onSearch={setBusqueda}
+				busqueda={busqueda}
+				filtrosActuales={filtros}
+			/>
 
+			<h2 className="text-3xl font-bold mb-6 mt-6">Nuestro Catálogo</h2>
+
+			{/* 🔥 Renderizamos SOLO datosFiltrados */}
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-				{productos.map((p) => (
-					<CardProducto
-						key={p._id}
-						producto={p}
-						isSelected={!!cotizacion.find((c) => c.producto._id === p._id)}
-						toggleSeleccion={toggleSeleccion}
-						cantidad={
-							cotizacion.find((c) => c.producto._id === p._id)?.cantidad || 1
-						}
-						setCantidad={(val) => handleSetCantidad(p._id, val)}
-						// 👈 Le pasamos la función para abrir el detalle
-						onOpenDetalle={() => setProductoDetalle(p)}
-					/>
-				))}
+				{datosFiltrados.length > 0 ? (
+					datosFiltrados.map((p) => (
+						<CardProducto
+							key={p._id}
+							producto={p}
+							isSelected={!!cotizacion.find((c) => c.producto._id === p._id)}
+							toggleSeleccion={toggleSeleccion}
+							cantidad={
+								cotizacion.find((c) => c.producto._id === p._id)?.cantidad || 1
+							}
+							setCantidad={(val) => handleSetCantidad(p._id, val)}
+							onOpenDetalle={() => setProductoDetalle(p)}
+						/>
+					))
+				) : (
+					<p className="col-span-full text-center text-gray-500">
+						No se encontraron productos con esos criterios.
+					</p>
+				)}
 			</div>
 
 			{cotizacion.length > 0 && (
@@ -74,7 +102,7 @@ const Home = () => {
 
 			{/* 👈 Renderizamos el Modal de Detalle aquí abajo */}
 			<ModalDetalleProducto
-				// 🔥 2. EL TRUCO MÁGICO: La key fuerza a React a resetear el modal
+				// 🔥 EL TRUCO MÁGICO: La key fuerza a React a resetear el modal
 				// Si cambia el ID del producto (o se cierra), se reinicia el estado local.
 				key={productoDetalle?._id || 'modal-vacio'}
 				producto={productoDetalle}

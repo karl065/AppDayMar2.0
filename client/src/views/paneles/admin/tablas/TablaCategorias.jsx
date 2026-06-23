@@ -7,10 +7,17 @@ import FormularioCrearCategorias from '../../../formularios/categorias/CrearCate
 import FormularioEditarCategoria from '../../../formularios/categorias/EditarCategoriaForm.jsx';
 import { eliminarCategoriaAction } from './../../../../redux/categorias/actions/eliminarCategoriaAction';
 import { alertDeleteWithTransfer } from '../../../../helpers/alertas.jsx';
+import FiltroUniversal from '../../../../components/Filtros/FiltroUniversal.jsx';
+import { useFiltrado } from '../../../../hooks/useFiltrado.jsx';
 
 const TablaCategorias = () => {
 	const dispatch = useDispatch();
 	const { categorias } = useSelector((state) => state.categorias);
+
+	// Integración del filtro
+	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
+		useFiltrado(categorias, ['nombre', 'tipo.nombre']);
+
 	const [modal, setModal] = useState({ abierto: false, modo: null });
 	const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
 
@@ -46,7 +53,8 @@ const TablaCategorias = () => {
 		{ key: 'descripcion', label: 'Descripción' },
 	];
 
-	const data = categorias.map((c) => ({
+	// Mapeo basado en datosFiltrados
+	const data = datosFiltrados.map((c) => ({
 		id: c._id,
 		nombre: <span className="font-bold text-vivero-gold">{c.nombre}</span>,
 		tipo: (
@@ -62,20 +70,31 @@ const TablaCategorias = () => {
 	}));
 
 	return (
-		<div className="h-full w-full">
-			<MobileTable
-				columns={columns}
-				data={data}
-				onEdit={(row) => {
-					const original = categorias.find((t) => t._id === row.id);
-					setCategoriaSeleccionada(original);
-					setModal({ abierto: true, modo: 'editar' });
-				}}
-				onDelete={(row) => {
-					const original = categorias.find((t) => t._id === row.id);
-					handleEliminar(original);
-				}}
+		<div className="w-full">
+			<FiltroUniversal
+				data={categorias}
+				busqueda={busqueda}
+				onSearch={setBusqueda}
+				onFilter={aplicarFiltro}
+				filtrosActuales={filtros}
+				config={[{ label: 'Tipo', key: 'tipo.nombre' }]}
 			/>
+
+			<div className="p-4 h-[calc(100vh-250px)] overflow-y-auto">
+				<MobileTable
+					columns={columns}
+					data={data}
+					onEdit={(row) => {
+						const original = categorias.find((t) => t._id === row.id);
+						setCategoriaSeleccionada(original);
+						setModal({ abierto: true, modo: 'editar' });
+					}}
+					onDelete={(row) => {
+						const original = categorias.find((t) => t._id === row.id);
+						handleEliminar(original);
+					}}
+				/>
+			</div>
 
 			<ModalBase
 				isOpen={modal.abierto}

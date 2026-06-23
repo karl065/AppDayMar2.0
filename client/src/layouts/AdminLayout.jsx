@@ -17,7 +17,7 @@ const AdminLayout = () => {
 
 	// 1. Estados centrales de navegación y modales
 	const [modalCrearAbierto, setModalCrearAbierto] = useState(false);
-	const [seccion, setSeccion] = useState('dashboard');
+	const [seccion, setSeccion] = useState('tienda');
 
 	const handleLogout = async () => {
 		const confirmar = await alertConfirm(

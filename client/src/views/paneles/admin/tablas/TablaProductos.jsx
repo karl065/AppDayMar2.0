@@ -10,16 +10,24 @@ import {
 import { eliminarProductosAction } from '../../../../redux/productos/actions/eliminarProductosAction.jsx';
 import ModalBase from './../../../../components/ui/Modal.jsx';
 import ActualizarProducto from '../../../formularios/productos/ActualizarProductos.jsx';
+import { useFiltrado } from '../../../../hooks/useFiltrado.jsx';
+import FiltroUniversal from '../../../../components/Filtros/FiltroUniversal.jsx';
 
 const TablaProductos = () => {
 	const dispatch = useDispatch();
 	const { productos } = useSelector((state) => state.productos);
 
-	// Estados para el manejo del modal
+	// 1. Integración del Hook de Filtrado
+	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
+		useFiltrado(productos, [
+			'nombre',
+			'categoria.nombre',
+			'categoria.tipo.nombre',
+		]);
+
 	const [modalAbierto, setModalAbierto] = useState(false);
 	const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-	// 1. Definición de columnas
 	const columns = [
 		{ key: 'info', label: 'Producto' },
 		{ key: 'imagen', label: 'Imagen' },
@@ -27,12 +35,12 @@ const TablaProductos = () => {
 		{ key: 'stock', label: 'Stock' },
 	];
 
-	// 2. Mapeo de datos para MobileTable
-	const data = productos.map((prod) => ({
-		id: prod._id, // Importante: mantenemos el id para identificar la fila
-		nombre: prod.nombre, // Pasamos el nombre real para que el formulario lo reciba
-		precio: prod.precio, // Pasamos el valor numérico para el formulario
-		stock: prod.stock, // Pasamos el stock numérico para el formulario
+	// 2. Mapeo de datos usando datosFiltrados
+	const data = datosFiltrados.map((prod) => ({
+		id: prod._id,
+		nombre: prod.nombre,
+		precio: prod.precio,
+		stock: prod.stock,
 		imagen: (
 			<img
 				src={prod.imagen}
@@ -48,7 +56,7 @@ const TablaProductos = () => {
 				</span>
 			</div>
 		),
-		precio_formato: `$${prod.precio.toLocaleString()}`, // Usamos este para mostrar
+		precio_formato: `$${prod.precio.toLocaleString()}`,
 		stock_formato: (
 			<span
 				className={
@@ -59,27 +67,20 @@ const TablaProductos = () => {
 		),
 	}));
 
-	// 3. Handlers para las acciones
 	const handleEdit = (row) => {
 		const original = productos.find((p) => p._id === row.id);
-
 		setProductoSeleccionado(original);
 		setModalAbierto(true);
 	};
 
 	const handleDelete = async (row) => {
-		// 1. Pedimos confirmación antes de proceder
 		const confirmar = await alertConfirm(
 			'Eliminar Producto',
-			`¿Estás seguro de que deseas eliminar "${row.nombre}"? Esta acción no se puede deshacer.`,
+			`¿Estás seguro de que deseas eliminar "${row.nombre}"?`,
 		);
-
 		if (confirmar) {
 			try {
-				// 2. Ejecutamos la acción de Redux
 				await eliminarProductosAction(dispatch, row.id);
-
-				// 3. Notificamos al usuario
 				alertSuccess('Producto eliminado correctamente');
 			} catch (error) {
 				console.log(error);
@@ -89,25 +90,39 @@ const TablaProductos = () => {
 	};
 
 	return (
-		<div className="h-[calc(100vh-200px)] w-full">
-			{productos.length > 0 ? (
-				<MobileTable
-					columns={columns}
-					data={data.map((item) => ({
-						...item,
-						precio: item.precio_formato, // Reemplazamos visualmente
-						stock: item.stock_formato,
-					}))}
-					onEdit={handleEdit}
-					onDelete={handleDelete}
-				/>
-			) : (
-				<div className="flex items-center justify-center h-full text-gray-400">
-					No hay productos registrados.
-				</div>
-			)}
+		<div className="w-full">
+			{/* 3. Filtro Universal */}
+			<FiltroUniversal
+				data={productos}
+				busqueda={busqueda}
+				onSearch={setBusqueda}
+				onFilter={aplicarFiltro}
+				filtrosActuales={filtros}
+				config={[
+					{ label: 'Tipo', key: 'categoria.tipo.nombre' },
+					{ label: 'Categoría', key: 'categoria.nombre' },
+				]}
+			/>
 
-			{/* Modal de Edición */}
+			<div className="p-4 h-[calc(100vh-250px)] overflow-y-auto">
+				{datosFiltrados.length > 0 ? (
+					<MobileTable
+						columns={columns}
+						data={data.map((item) => ({
+							...item,
+							precio: item.precio_formato,
+							stock: item.stock_formato,
+						}))}
+						onEdit={handleEdit}
+						onDelete={handleDelete}
+					/>
+				) : (
+					<div className="flex items-center justify-center h-full text-gray-400">
+						No se encontraron productos.
+					</div>
+				)}
+			</div>
+
 			<ModalBase
 				isOpen={modalAbierto}
 				onClose={() => setModalAbierto(false)}
