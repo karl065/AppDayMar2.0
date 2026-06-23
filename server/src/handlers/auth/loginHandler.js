@@ -13,7 +13,7 @@ const loginHandler = async (req, res) => {
 		res.cookie('token', token, {
 			httpOnly: true, // No accesible por JavaScript (protege contra XSS)
 			secure: LOGIN_SEG, // true en producción (HTTPS)
-			sameSite: 'strict', // Protege contra ataques CSRF
+			sameSite: 'none', // Protege contra ataques CSRF
 			maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
 			path: '/',
 		});
