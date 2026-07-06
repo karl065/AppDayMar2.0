@@ -1,26 +1,25 @@
 import mongoose from 'mongoose';
 import connection from '../config/DBConnection.js';
-import SubCategorias from './SubCategorias.js';
 
-const CategoriasSchema = new mongoose.Schema({
+const SubCategoriasSchema = new mongoose.Schema({
 	nombre: {
 		type: String,
 		required: true,
 		trim: true,
 	},
-	tipo: {
+	categoria: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Tipos',
+		ref: 'Categorias',
 		required: true,
 	},
 	descripcion: {
 		type: String,
 		required: true,
 	},
-	subCategorias: [
+	productos: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'SubCategorias',
+			ref: 'Productos',
 		},
 	],
 	usuario: {
@@ -30,6 +29,6 @@ const CategoriasSchema = new mongoose.Schema({
 	},
 });
 
-const Categorias = connection.model('Categorias', CategoriasSchema);
+const SubCategorias = connection.model('SubCategorias', SubCategoriasSchema);
 
-export default Categorias;
+export default SubCategorias;

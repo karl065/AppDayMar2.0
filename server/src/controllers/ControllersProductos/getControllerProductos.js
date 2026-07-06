@@ -14,10 +14,14 @@ const getControllerProductos = async (query) => {
 			Object.keys(filtro).length > 0 ? filtro : {},
 		)
 			.populate({
-				path: 'categoria',
+				path: 'subCategoria',
 				populate: {
-					path: 'tipo', // Esto llena el objeto 'tipo' dentro de 'categoria'
-					model: 'Tipos', // Asegúrate de usar el nombre correcto de tu modelo
+					path: 'categoria', // Esto llena el objeto 'tipo' dentro de 'categoria'
+					model: 'Categorias', // Asegúrate de usar el nombre correcto de tu modelo
+					populate: {
+						path: 'tipo',
+						model: 'Tipos', // Asegúrate de usar el nombre correcto de tu modelo
+					},
 				},
 			})
 			.populate('usuario');

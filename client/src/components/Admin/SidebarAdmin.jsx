@@ -7,6 +7,7 @@ import {
 	Layers,
 	X,
 	FileText,
+	GitBranch,
 } from 'lucide-react';
 
 const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
@@ -16,9 +17,14 @@ const SidebarAdmin = ({ isSidebarOpen, setIsSidebarOpen, setSeccion }) => {
 			key: 'tienda',
 			icon: <LayoutDashboard size={20} />,
 		},
-		{ name: 'Productos', key: 'productos', icon: <Package size={20} /> },
-		{ name: 'Categorías', key: 'categorias', icon: <Layers size={20} /> },
 		{ name: 'Tipos', key: 'tipos', icon: <Tag size={20} /> },
+		{ name: 'Categorías', key: 'categorias', icon: <Layers size={20} /> },
+		{
+			name: 'SubCategorías',
+			key: 'subCategorias',
+			icon: <GitBranch size={20} />,
+		},
+		{ name: 'Productos', key: 'productos', icon: <Package size={20} /> },
 		{ name: 'Cotizaciones', key: 'cotizaciones', icon: <FileText size={20} /> },
 		{ name: 'Usuarios', key: 'usuarios', icon: <Users size={20} /> },
 		{ name: 'Roles', key: 'roles', icon: <ShieldCheck size={20} /> },

@@ -6,6 +6,7 @@ import rolesSockets from './modulos/rolesSockets.js';
 import tiposSockets from './modulos/tiposSockets.js';
 import usuariosSockets from './modulos/usuariosSockets.js';
 import cotizacionesSockets from './modulos/cotizacionesSockets.js';
+import subCategoriasSockets from './modulos/subCategoriasSockets.js';
 
 const registerSocketModules = (io) => {
 	io.on('connection', (socket) => {
@@ -15,6 +16,7 @@ const registerSocketModules = (io) => {
 		usuariosSockets(io, socket);
 		productosSockets(io, socket);
 		categoriasSockets(io, socket);
+		subCategoriasSockets(io, socket);
 		tiposSockets(io, socket);
 		rolesSockets(io, socket);
 		cotizacionesSockets(io, socket);

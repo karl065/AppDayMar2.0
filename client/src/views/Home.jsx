@@ -50,8 +50,9 @@ const Home = () => {
 			<FiltroUniversal
 				data={productos}
 				config={[
-					{ label: 'Tipo', key: 'categoria.tipo.nombre' },
-					{ label: 'Categoría', key: 'categoria.nombre' },
+					{ label: 'Tipo', key: 'subCategoria.categoria.tipo.nombre' },
+					{ label: 'Categoría', key: 'subCategoria.categoria.nombre' },
+					{ label: 'SubCategoría', key: 'subCategoria.nombre' },
 				]}
 				onFilter={aplicarFiltro}
 				onSearch={setBusqueda}

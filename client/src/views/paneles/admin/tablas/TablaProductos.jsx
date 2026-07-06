@@ -21,8 +21,8 @@ const TablaProductos = () => {
 	const { datosFiltrados, aplicarFiltro, setBusqueda, busqueda, filtros } =
 		useFiltrado(productos, [
 			'nombre',
-			'categoria.nombre',
-			'categoria.tipo.nombre',
+			'subCategoria.nombre',
+			'subCategoria.categoria.tipo.nombre',
 		]);
 
 	const [modalAbierto, setModalAbierto] = useState(false);
@@ -51,8 +51,8 @@ const TablaProductos = () => {
 		info: (
 			<div className="flex flex-col">
 				<span className="font-bold text-vivero-gold">{prod.nombre}</span>
-				<span className="text-xs text-gray-400">
-					{prod.categoria?.nombre || 'Sin categoría'}
+				<span className="text-xs text-black">
+					{prod.subCategoria?.nombre || 'Sin categoría'}
 				</span>
 			</div>
 		),
@@ -99,8 +99,9 @@ const TablaProductos = () => {
 				onFilter={aplicarFiltro}
 				filtrosActuales={filtros}
 				config={[
-					{ label: 'Tipo', key: 'categoria.tipo.nombre' },
-					{ label: 'Categoría', key: 'categoria.nombre' },
+					{ label: 'Tipo', key: 'subCategoria.categoria.tipo.nombre' },
+					{ label: 'Categoría', key: 'subCategoria.categoria.nombre' },
+					{ label: 'SubCategoría', key: 'subCategoria.nombre' },
 				]}
 			/>
 

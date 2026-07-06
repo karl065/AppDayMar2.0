@@ -9,7 +9,7 @@ const sanitizadorProductos = (producto) => {
 		stock: producto.stock,
 		estado: producto.estado,
 		descripcion: producto.descripcion,
-		categoria: producto.categoria,
+		subCategoria: producto.subCategoria,
 		usuario: sanitizarUsuario(producto.usuario),
 	};
 };

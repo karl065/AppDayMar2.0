@@ -4,6 +4,7 @@ import roles from './routesRoles/routesRoles.js';
 import usuarios from './routesUsuarios/routesUsuarios.js';
 import productos from './routesProductos/routesProductos.js';
 import categorias from './routesCategorias/routesCategorias.js';
+import subCategorias from './routesSubCategorias/routesSubCategorias.js';
 import tipos from './routesTipos/routesTipos.js';
 import auth from './rutasAuth/rutasAuth.js';
 import CloudinaryRoutesWidget from './CloudinaryRoutes/CloudinaryRoutesWidget.js';
@@ -19,6 +20,7 @@ router.use('/auth', auth);
 // Rutas de inventario y negocio
 router.use('/productos', productos);
 router.use('/categorias', categorias);
+router.use('/subCategorias', subCategorias);
 router.use('/tipos', tipos);
 router.use('/cotizaciones', cotizaciones);
 

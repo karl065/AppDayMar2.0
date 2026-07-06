@@ -28,12 +28,17 @@ const ProductosSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	categoria: {
+	subCategoria: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Categorias',
+		ref: 'SubCategorias',
 		required: true,
 	},
-	cotizaciones: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cotizaciones' }],
+	cotizaciones: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Cotizaciones',
+		},
+	],
 	usuario: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Usuarios',

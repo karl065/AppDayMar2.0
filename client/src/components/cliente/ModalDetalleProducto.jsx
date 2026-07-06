@@ -9,31 +9,39 @@ const ModalDetalleProducto = ({
 	isSelected,
 	toggleSeleccion,
 }) => {
-	// 🔥 1. Estado simple, ¡sin useEffect!
 	const [cantidadLocal, setCantidadLocal] = useState(cantidadInicial || 1);
 
 	if (!producto) return null;
 
 	return (
 		<ModalBase isOpen={isOpen} onClose={onClose} title={producto.nombre}>
-			<div className="space-y-4">
+			<div className="flex flex-col max-h-[80vh]">
 				<img
 					src={producto.imagen}
 					alt={producto.nombre}
-					className="w-full h-64 object-cover rounded-lg"
+					className="w-full h-64 object-cover rounded-lg flex-shrink-0"
 				/>
-				<p className="text-gray-600">{producto.descripcion}</p>
 
-				<div className="flex items-center justify-between pt-4 border-t">
+				{/* Descripción con scroll */}
+				<div className="mt-4 flex-1 overflow-y-auto max-h-48 pr-2">
+					<p className="text-gray-600 leading-relaxed whitespace-pre-line">
+						{producto.descripcion}
+					</p>
+				</div>
+
+				<div className="flex items-center justify-between pt-4 mt-4 border-t flex-shrink-0">
 					<div className="flex items-center gap-4">
 						<span className="font-bold">Cant:</span>
+
 						<div className="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-1">
 							<button
 								onClick={() => setCantidadLocal(Math.max(1, cantidadLocal - 1))}
 								className="px-2 font-bold hover:text-vivero-gold">
 								-
 							</button>
+
 							<span className="font-bold w-4 text-center">{cantidadLocal}</span>
+
 							<button
 								onClick={() => setCantidadLocal(cantidadLocal + 1)}
 								className="px-2 font-bold hover:text-vivero-gold">

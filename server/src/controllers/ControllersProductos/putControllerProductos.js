@@ -18,7 +18,7 @@ const putControllerProductos = async (updateData, idProducto) => {
 
 		// Poblamos las referencias para devolver el objeto completo (equivalente al 'include' de Sequelize)
 		return await Productos.findById(productoActualizado._id)
-			.populate('categoria')
+			.populate('subCategoria')
 			.populate('usuario');
 	} catch (error) {
 		throw error;

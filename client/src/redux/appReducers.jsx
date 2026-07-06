@@ -16,6 +16,9 @@ import productosReducer from './productos/slices/productosSlice.jsx';
 // Categorias Slices
 import categoriasReducer from './categorias/slices/categoriasSlice.jsx';
 
+// SubCategorias Slices
+import subCategoriasReducer from './subCategorias/slices/subCategoriasSlice.jsx';
+
 // tipos Slices
 import tiposReducer from './tipos/slices/tiposSlices.jsx';
 
@@ -35,6 +38,9 @@ const appReducers = combineReducers({
 
 	// Categorias reducers
 	categorias: categoriasReducer,
+
+	// SubCategorias reducers
+	subCategorias: subCategoriasReducer,
 
 	// productos reducers
 	productos: productosReducer,

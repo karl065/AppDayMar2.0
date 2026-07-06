@@ -41,6 +41,6 @@ const CotizacionSchema = new mongoose.Schema({
 	createdAt: { type: Date, default: Date.now },
 });
 
-const Cotizaciones = connection.model('Cotizacion', CotizacionSchema);
+const Cotizaciones = connection.model('Cotizaciones', CotizacionSchema);
 
 export default Cotizaciones;

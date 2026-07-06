@@ -17,6 +17,7 @@ import {
 	obtenerDepartamentosAction,
 } from '../../redux/ubicacion/actions/obtenerUbicacionesAction.jsx';
 import { obtenerCotizacionesAction } from './../../redux/cotizaciones/actions/obtenerCotizacionesAction.jsx';
+import { obtenerSubCategoriasAction } from './../../redux/subCategorias/actions/obtenerSubCategoriasAction.jsx';
 
 // Ahora recibe 'children' (que será App.jsx)
 const AuthLoader = ({ children }) => {
@@ -36,6 +37,7 @@ const AuthLoader = ({ children }) => {
 				obtenerTiposAction(dispatch),
 				obtenerProductosAction(dispatch),
 				obtenerCategoriasAction(dispatch),
+				obtenerSubCategoriasAction(dispatch),
 				obtenerDepartamentosAction(dispatch),
 				obtenerCiudadesAction(dispatch), // <--- Carga inicial
 				obtenerRolesAction(dispatch),

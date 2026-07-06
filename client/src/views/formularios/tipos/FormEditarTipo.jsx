@@ -16,7 +16,8 @@ const FormularioEditarTipo = ({ tipo, onClose }) => {
 			descripcion: Yup.string().required('Coloca una descripcion'),
 		}),
 		onSubmit: async (values) => {
-			await actualizarTiposAction(dispatch, tipo.id, values);
+			console.log(tipo);
+			await actualizarTiposAction(dispatch, tipo._id, values);
 			alertSuccess('Tipo actualizado');
 			onClose();
 		},

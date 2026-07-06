@@ -19,7 +19,8 @@ const putControllerCategorias = async (dataUpdate, id) => {
 		// Si necesitas devolver la data poblada:
 		return await Categorias.findById(categoriaActualizada._id)
 			.populate('usuario')
-			.populate('productos');
+			.populate('tipo')
+			.populate('subCategorias');
 	} catch (error) {
 		throw error;
 	}

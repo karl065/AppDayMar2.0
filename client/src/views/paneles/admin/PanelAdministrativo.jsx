@@ -16,6 +16,8 @@ import TablaRoles from './tablas/TablaRoles.jsx';
 import FormularioCrearUsuario from '../../formularios/usuarios/FormCrearUsuario.jsx';
 import FormularioCrearRol from '../../formularios/roles/FormCrearRol.jsx';
 import TablaCotizaciones from './tablas/TablaCotizaciones.jsx';
+import TablaSubCategorias from './tablas/TablaSubCategorias.jsx';
+import FormularioCrearSubCategorias from '../../formularios/subCategorias/CrearSubCategoriasForm.jsx';
 
 const PanelAdministrativo = () => {
 	const { seccion, modalCrearAbierto, setModalCrearAbierto } =
@@ -29,6 +31,8 @@ const PanelAdministrativo = () => {
 				return <TablaCotizaciones />;
 			case 'categorias':
 				return <TablaCategorias />;
+			case 'subCategorias':
+				return <TablaSubCategorias />;
 			case 'tipos':
 				return <TablaTipos />;
 			case 'usuarios':
@@ -49,6 +53,8 @@ const PanelAdministrativo = () => {
 				return <FormularioCrearProducto {...props} />;
 			case 'categorias':
 				return <FormularioCrearCategorias {...props} />;
+			case 'subCategorias':
+				return <FormularioCrearSubCategorias {...props} />;
 			case 'tipos':
 				return <FormularioCrearTipo {...props} />;
 			case 'usuarios':

@@ -1,14 +1,16 @@
-// src/views/paneles/admin/formularios/FormularioCrearProducto.jsx
+// src/views/formularios/productos/CrearProductosForm.jsx
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { crearProductosAction } from '../../../redux/productos/actions/crearProductosAction.jsx';
 import { alertError, alertSuccess } from '../../../helpers/alertas.jsx';
-import CargadorImagen from './../../../components/Admin/CargadorImagen';
+import CargadorImagen from '../../../components/Admin/CargadorImagen.jsx';
 
 const FormularioCrearProducto = ({ onClose }) => {
 	const dispatch = useDispatch();
-	const { categorias } = useSelector((state) => state.categorias);
+
+	const { subCategorias } = useSelector((state) => state.subCategorias);
 	const { login } = useSelector((state) => state.login);
 
 	const formik = useFormik({
@@ -16,32 +18,41 @@ const FormularioCrearProducto = ({ onClose }) => {
 			nombre: '',
 			precio: '',
 			stock: '',
-			categoria: '',
+			subCategoria: '',
 			descripcion: '',
 			imagen: '',
 		},
+
 		validationSchema: Yup.object({
 			nombre: Yup.string().required('El nombre es obligatorio'),
+
 			precio: Yup.number()
 				.min(0, 'No puede ser negativo')
 				.required('El precio es obligatorio'),
+
 			stock: Yup.number()
 				.integer()
 				.min(0, 'No puede ser negativo')
 				.required('El stock es obligatorio'),
-			categoria: Yup.string().required('Debes seleccionar una categoría'),
+
+			subCategoria: Yup.string().required('Debes seleccionar una subcategoría'),
+
 			descripcion: Yup.string().required('La descripción es obligatoria'),
+
 			imagen: Yup.string().required('Debes subir una imagen'),
 		}),
+
 		onSubmit: async (values) => {
 			try {
-				// Añadimos el usuario que crea el producto
 				const dataFinal = {
 					...values,
 					usuario: login?.usuario?._id || login?._id,
 				};
+
 				await crearProductosAction(dispatch, dataFinal);
+
 				alertSuccess('Producto registrado exitosamente');
+
 				onClose();
 			} catch (error) {
 				console.error(error);
@@ -52,27 +63,40 @@ const FormularioCrearProducto = ({ onClose }) => {
 
 	return (
 		<form onSubmit={formik.handleSubmit} className="space-y-4">
-			{/* Nombre e Imagen */}
+			{/* Nombre */}
 			<div>
 				<label className="block text-sm font-bold text-vivero-dark">
 					Nombre
 				</label>
+
 				<input
 					name="nombre"
 					type="text"
 					value={formik.values.nombre}
 					onChange={formik.handleChange}
-					className="w-full p-2 border border-vivero-gold/30 rounded bg-white"
+					onBlur={formik.handleBlur}
+					className={`w-full p-2 border rounded bg-white ${
+						formik.touched.nombre && formik.errors.nombre
+							? 'border-red-500'
+							: 'border-vivero-gold/30'
+					}`}
 				/>
+
+				{formik.touched.nombre && formik.errors.nombre && (
+					<p className="text-red-500 text-xs mt-1">{formik.errors.nombre}</p>
+				)}
 			</div>
 
+			{/* Imagen */}
 			<div className="flex flex-col gap-2">
 				<label className="block text-sm font-bold text-vivero-dark">
 					Imagen del Producto
 				</label>
+
 				<CargadorImagen
 					onUpload={(url) => formik.setFieldValue('imagen', url)}
 				/>
+
 				{formik.values.imagen && (
 					<img
 						src={formik.values.imagen}
@@ -80,25 +104,44 @@ const FormularioCrearProducto = ({ onClose }) => {
 						className="w-20 h-20 object-cover rounded border border-vivero-gold"
 					/>
 				)}
+
+				{formik.touched.imagen && formik.errors.imagen && (
+					<p className="text-red-500 text-xs">{formik.errors.imagen}</p>
+				)}
 			</div>
 
-			{/* Categoría */}
+			{/* SubCategoría */}
 			<div>
 				<label className="block text-sm font-bold text-vivero-dark">
-					Categoría
+					Subcategoría
 				</label>
+
 				<select
-					name="categoria"
-					value={formik.values.categoria}
+					name="subCategoria"
+					value={formik.values.subCategoria}
 					onChange={formik.handleChange}
-					className="w-full p-2 border border-vivero-gold/30 rounded bg-white">
-					<option value="">-- Seleccione una categoría --</option>
-					{categorias.map((c) => (
-						<option key={c._id} value={c._id}>
-							{c.nombre}
+					onBlur={formik.handleBlur}
+					className={`w-full p-2 border rounded bg-white ${
+						formik.touched.subCategoria && formik.errors.subCategoria
+							? 'border-red-500'
+							: 'border-vivero-gold/30'
+					}`}>
+					<option value="">-- Seleccione una subcategoría --</option>
+
+					{subCategorias.map((s) => (
+						<option key={s._id} value={s._id}>
+							{`${s.categoria?.tipo?.nombre || ''} / ${
+								s.categoria?.nombre || ''
+							} / ${s.nombre}`}
 						</option>
 					))}
 				</select>
+
+				{formik.touched.subCategoria && formik.errors.subCategoria && (
+					<p className="text-red-500 text-xs mt-1">
+						{formik.errors.subCategoria}
+					</p>
+				)}
 			</div>
 
 			{/* Precio y Stock */}
@@ -107,25 +150,46 @@ const FormularioCrearProducto = ({ onClose }) => {
 					<label className="block text-sm font-bold text-vivero-dark">
 						Precio
 					</label>
+
 					<input
 						name="precio"
 						type="number"
 						value={formik.values.precio}
 						onChange={formik.handleChange}
-						className="w-full p-2 border border-vivero-gold/30 rounded bg-white"
+						onBlur={formik.handleBlur}
+						className={`w-full p-2 border rounded bg-white ${
+							formik.touched.precio && formik.errors.precio
+								? 'border-red-500'
+								: 'border-vivero-gold/30'
+						}`}
 					/>
+
+					{formik.touched.precio && formik.errors.precio && (
+						<p className="text-red-500 text-xs mt-1">{formik.errors.precio}</p>
+					)}
 				</div>
+
 				<div>
 					<label className="block text-sm font-bold text-vivero-dark">
 						Stock
 					</label>
+
 					<input
 						name="stock"
 						type="number"
 						value={formik.values.stock}
 						onChange={formik.handleChange}
-						className="w-full p-2 border border-vivero-gold/30 rounded bg-white"
+						onBlur={formik.handleBlur}
+						className={`w-full p-2 border rounded bg-white ${
+							formik.touched.stock && formik.errors.stock
+								? 'border-red-500'
+								: 'border-vivero-gold/30'
+						}`}
 					/>
+
+					{formik.touched.stock && formik.errors.stock && (
+						<p className="text-red-500 text-xs mt-1">{formik.errors.stock}</p>
+					)}
 				</div>
 			</div>
 
@@ -134,13 +198,25 @@ const FormularioCrearProducto = ({ onClose }) => {
 				<label className="block text-sm font-bold text-vivero-dark">
 					Descripción
 				</label>
+
 				<textarea
 					name="descripcion"
 					value={formik.values.descripcion}
 					onChange={formik.handleChange}
-					className="w-full p-2 border border-vivero-gold/30 rounded bg-white"
+					onBlur={formik.handleBlur}
 					rows="2"
+					className={`w-full p-2 border rounded bg-white ${
+						formik.touched.descripcion && formik.errors.descripcion
+							? 'border-red-500'
+							: 'border-vivero-gold/30'
+					}`}
 				/>
+
+				{formik.touched.descripcion && formik.errors.descripcion && (
+					<p className="text-red-500 text-xs mt-1">
+						{formik.errors.descripcion}
+					</p>
+				)}
 			</div>
 
 			<button

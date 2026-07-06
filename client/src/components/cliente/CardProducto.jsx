@@ -22,7 +22,7 @@ const CardProducto = ({
 			<div className="relative p-5 text-white z-10">
 				<h4 className="font-bold text-lg truncate">{producto.nombre}</h4>
 				<p className="text-vivero-gold text-sm mb-4">
-					{producto.categoria?.nombre}
+					{producto.subCategoria?.nombre}
 				</p>
 
 				<div className="flex items-center justify-between">
