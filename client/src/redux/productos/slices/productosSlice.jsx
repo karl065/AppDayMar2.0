@@ -10,13 +10,16 @@ const productosSlice = createSlice({
 			state.productos = action.payload;
 		},
 		agregarProducto: (state, action) => {
-			state.productos.push(action.payload);
+			const existe = state.productos.some((p) => p._id === action.payload._id);
+			if (!existe) {
+				state.productos.push(action.payload);
+			}
 		},
 		actualizarProducto: (state, action) => {
 			const productoActualizado = action.payload;
 
 			const index = state.productos.findIndex(
-				(producto) => producto._id === productoActualizado._id
+				(producto) => producto._id === productoActualizado._id,
 			);
 
 			if (index !== -1) {
@@ -29,7 +32,7 @@ const productosSlice = createSlice({
 		eliminarProducto: (state, action) => {
 			const id = action.payload; // Aquí llega el ID
 			state.productos = state.productos.filter(
-				(producto) => producto._id !== id
+				(producto) => producto._id !== id,
 			);
 		},
 	},

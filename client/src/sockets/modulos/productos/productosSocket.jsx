@@ -13,6 +13,11 @@ const productosSocketsListeners = (socket) => {
 		return;
 	}
 
+	// 🔥 LIMPIAR LISTENERS VIEJOS ANTES DE AGREGAR LOS NUEVOS
+	socket.off('producto:agregar');
+	socket.off('producto:recargar');
+	socket.off('producto:quitar');
+
 	socket.on('producto:agregar', (data) => {
 		dispatch(agregarProducto(data));
 	});
